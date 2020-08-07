@@ -9,5 +9,6 @@ router.get("/", (req, res) => res.send('root'));
 router.post("/signup", (req, res) => controller.signUp(req, res));
 router.post("/signin", (req, res) => controller.signIn(req, res));
 router.get("/verifyuser", (req, res) => controller.verifyUser(req, res));
+router.get("/userprofile", (req, res) => controller.userProfile(req, res));
 
 module.exports = router;

@@ -17,12 +17,14 @@ const createSeedData = async () => {
     {
       username: 'ah',
       name: 'Andrew H',
-      password_digest: bcrypt.hashSync('123321', SALT_ROUNDS)
+      password_digest: bcrypt.hashSync('123321', SALT_ROUNDS),
+      friends: []
     },
     {
       username: 'sx',
       name: 'Shirley X',
-      password_digest: bcrypt.hashSync('123456', SALT_ROUNDS)
+      password_digest: bcrypt.hashSync('123456', SALT_ROUNDS),
+      friends: []
     }
   ];
   const seededUsers = await User.insertMany(users);

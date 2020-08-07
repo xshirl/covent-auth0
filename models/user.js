@@ -17,11 +17,17 @@ const User = new Schema(
     password_digest: {
       type: String,
       required: true,
-    }
+    },
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      }
+    ]
   },
   { timestamps: true }
 );
 
 User.plugin(uniqueValidator);
 
-module.exports = mongoose.model('user', User);
+module.exports = mongoose.model('users', User);

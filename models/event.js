@@ -26,12 +26,12 @@ const Event = new Schema(
     },
     creator: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
       required: true
     },
     attendees: [{
       type: Schema.Types.ObjectId,
-      ref: "user,"
+      ref: "users"
     }],
   },
   {
@@ -39,4 +39,4 @@ const Event = new Schema(
   }
 );
 
-module.exports = mongoose.model("event", Event);
+module.exports = mongoose.model("events", Event);

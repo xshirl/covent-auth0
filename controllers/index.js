@@ -114,6 +114,32 @@ const verifyUser = async (req, res) => {
   }
 }
 
+//user profile 
+const userProfile = async (req, res) => {
+  try {
+    const legit = await userOfRequest(req);
+
+    if (legit) {
+      const user = await User.findById(legit.id);
+      // only returning a select number of data fields 
+      // returns more than verify user, which is only required to log in using localStorage's JWT
+      const profile = {
+        id: user._id,
+        username: user.username,
+        name: user.name,
+        friends: user.friends 
+      }
+
+      return res.status(200).json({ user: profile });
+    }
+    return res.status(401).send('Not Authorized');
+  } catch (error) {
+    res.status(500).send('Verify User - Server Error');
+  }
+}
+
+// export functions 
+
 module.exports = {
-  signUp, signIn, verifyUser 
+  signUp, signIn, verifyUser, userProfile
 }

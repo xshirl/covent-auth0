@@ -15,11 +15,11 @@ const Message = new Schema(
     },
     creator: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
     recipients: [{
       type: Schema.Types.ObjectId,
-      ref: "user,",
+      ref: "users",
     }],
   },
   {
@@ -27,4 +27,4 @@ const Message = new Schema(
   }
 );
 
-module.exports = mongoose.model("message", Message);
+module.exports = mongoose.model("messages", Message);
