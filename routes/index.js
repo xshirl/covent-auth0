@@ -11,4 +11,7 @@ router.post("/signin", (req, res) => controller.signIn(req, res));
 router.get("/verifyuser", (req, res) => controller.verifyUser(req, res));
 router.get("/userprofile", (req, res) => controller.userProfile(req, res));
 
+// messages 
+router.post("/sendmessage", (req, res) => controller.sendMessage(req, res));
+
 module.exports = router;

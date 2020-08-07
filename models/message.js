@@ -6,7 +6,7 @@ const Message = new Schema(
     subject: {
       type: String,
       required: true,
-      default: '-- No Subject Text --'
+      default: '-- No Subject Header --'
     },
     content: {
       type: String,
