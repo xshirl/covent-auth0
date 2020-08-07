@@ -11,7 +11,7 @@ const Event = new Schema(
       type: String,
       required: true,
     },
-    isPrivate: {
+    isPublic: {
       type: Boolean,
       required: true,
     },
