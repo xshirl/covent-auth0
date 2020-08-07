@@ -13,5 +13,6 @@ router.get("/userprofile", (req, res) => controller.userProfile(req, res));
 
 // messages 
 router.post("/sendmessage", (req, res) => controller.sendMessage(req, res));
+router.get("/getmessages", (req, res) => controller.getMessages(req, res));
 
 module.exports = router;

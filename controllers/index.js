@@ -197,12 +197,33 @@ const sendMessage = async (req, res) => {
   }
 }
 
+// receive all messages that belong to the user with JWT
+const getMessages = async (req, res) => {
+  try {
+    
+    // recipient of message is defined by user's JWT 
+    const legit = await userOfRequest(req);
 
+    if (legit) {
+      // find messages that contain the user's id in recipients 
+      // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value 
+      // using $in or $all works when it's one value you are looking for 
+      const messages = await Message.find({
+        recipients: { $in: [legit.id] }
+      });
+
+      return res.status(200).json(messages);
+    }
+    return res.status(401).send('Not Authorized');
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 
 // export functions 
 
 module.exports = {
   signUp, signIn, verifyUser, userProfile,
-  sendMessage 
+  sendMessage, getMessages 
 }
