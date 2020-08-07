@@ -33,10 +33,23 @@ const createSeedData = async () => {
   const events = [
     {
       event_name: 'Meet and Greet at Central Park',
-      description: 'Meet and greet all the members of our development team while properly wearing masks and social distancing at Central Park! 5:00pm on 8/1/2020!',
+      description: 'Meet and greet all the members of our development team while properly wearing masks and social distancing at Central Park!',
       date: new Date(),
       startTime: '5:00 PM',
+      isPublic: true,
       creator: seededUsers[0]['_id'],
+      attendees: [
+        seededUsers[0]['_id'],
+        seededUsers[1]['_id']
+      ]
+    },
+    {
+      event_name: 'Development Meeting',
+      description: 'Important meeting for all hands on the project!',
+      date: new Date(),
+      startTime: '9:00 PM',
+      isPublic: false,
+      creator: seededUsers[1]['_id'],
       attendees: [
         seededUsers[0]['_id'],
         seededUsers[1]['_id']

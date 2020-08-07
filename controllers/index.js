@@ -119,6 +119,80 @@ const userProfile = async (req, res) => {
   }
 }
 
+// EVENTS 
+// get all events, option to query for public 
+const getEvents = async (req, res) => {
+  try {
+    const { public } = req.query; 
+
+    if (typeof public === 'string') {
+      console.log('Checking public events: ')
+      const publicEvents = await Event.find({
+        isPublic: true
+      });
+
+      return res.status(200).json(publicEvents);
+    }
+
+    // if not public, check events that this user created or is attending 
+    const legit = await userOfRequest(req);
+
+    if (legit) {
+      const createdEvents = await Event.find({
+        creator: legit.id
+      });
+
+      const attendingEvents = await Event.find({
+        attendees: { $in: [legit.id] }
+      });
+
+      return res.status(200).json({
+        createdEvents, attendingEvents
+      });
+    }
+
+    return res.status(401).send('Not Authorized');
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+// get one event 
+const getEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const event = await Event.findById(id);
+
+    return res.status(200).json(event);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+// create one event 
+const createEvent = async (req, res) => {
+  try {
+    // needs to be logged in to create and will be the creator
+    const legit = await userOfRequest(req);
+
+    if (legit) { 
+      const eventData = req.body;
+
+      // assumes eventData.date has a valid string of date format 
+      eventData.date = new Date(eventData.date);
+
+      const event = await new Event(eventData);
+
+      await event.save();
+
+      return res.status(200).json(event);
+    }
+    return res.status(401).send('Not Authorized');
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 // MESSAGES 
 // post with subject, content and recipients 
@@ -205,14 +279,26 @@ const getMessages = async (req, res) => {
     const legit = await userOfRequest(req);
 
     if (legit) {
-      // find messages that contain the user's id in recipients 
-      // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value 
-      // using $in or $all works when it's one value you are looking for 
-      const messages = await Message.find({
-        recipients: { $in: [legit.id] }
-      });
+      // if type = sent as query 
+      const { sent } = req.query;
 
-      return res.status(200).json(messages);
+      if (typeof sent === 'string') {
+        // find messages that match the creator 
+        const messages = await Message.find({
+          creator: legit.id 
+        });
+
+        return res.status(200).json(messages);
+      } else {
+        // find messages that contain the user's id in recipients 
+        // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value 
+        // using $in or $all works when it's one value you are looking for 
+        const messages = await Message.find({
+          recipients: { $in: [legit.id] }
+        });
+
+        return res.status(200).json(messages);
+      }
     }
     return res.status(401).send('Not Authorized');
   } catch (error) {
@@ -225,5 +311,6 @@ const getMessages = async (req, res) => {
 
 module.exports = {
   signUp, signIn, verifyUser, userProfile,
-  sendMessage, getMessages 
+  sendMessage, getMessages,
+  getEvents, getEvent, createEvent
 }

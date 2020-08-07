@@ -14,7 +14,7 @@ const Event = new Schema(
     isPublic: {
       type: Boolean,
       required: true,
-      default: false 
+      default: true  
     },
     date: {
       type: Date,
