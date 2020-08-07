@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const uri = process.env.ATLAS_URI;
+const uri = process.env.ATLAS_URI || 'mongodb://127.0.0.1:27017/coventDatabase';
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useCreateIndex: true })

@@ -23,18 +23,14 @@ const Event = new Schema(
       type: String,
       required: true,
     },
-    videoLink: {
-      type: String,
-      required: true,
-    },
-    creatorId: {
+    creator: {
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    attendee: {
+    attendees: [{
       type: Schema.Types.ObjectId,
       ref: "user,",
-    },
+    }],
   },
   {
     timestamps: true,
