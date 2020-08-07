@@ -194,6 +194,71 @@ const createEvent = async (req, res) => {
   }
 }
 
+// edit one event by id 
+const editEvent = async (req, res) => {
+  try {
+    // needs to be logged in and must match the creator
+    const legit = await userOfRequest(req);
+
+    if (legit) { 
+      const event = await Event.findById(req.params.id);
+
+      if (legit.id !== event.creator.toString()) {
+        return res.status(401).send('Not Authorized');
+      }
+
+      const eventData = req.body;
+
+      // assumes eventData.date has a valid string of date format
+      if (eventData.date) {
+        eventData.date = new Date(eventData.date);
+      }
+
+      await Event.findByIdAndUpdate(req.params.id, eventData, { new: true }, (error, event) => {
+        if (error) {
+          return res.status(500).json({ error: error.message })
+        }
+        if (!event) {
+          return res.status(404).json({ message: "Event not found!" })
+        }
+        return res.status(200).json(event)
+      })
+    } else {
+      return res.status(401).send('Not Authorized');
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+// delete an event 
+const deleteEvent = async (req, res) => {
+  try {
+    // needs to be logged in to create and will be the creator
+    const legit = await userOfRequest(req);
+
+    if (legit) { 
+      const event = await Event.findById(req.params.id);
+
+      if (!event) {
+        return res.status(401).send('No Event Found');
+      }
+
+      // only the creator may delete the event 
+      if (legit.id !== event.creator.toString()) {
+        return res.status(401).send('Not Authorized');
+      }
+
+      const deletion = await Event.findByIdAndDelete(req.params.id);
+
+      return res.status(200).json(deletion);
+    }
+    return res.status(401).send('Not Authorized');
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 // MESSAGES 
 // post with subject, content and recipients 
 // recipients is a string of usernames separated by commas and spaces 
@@ -312,5 +377,5 @@ const getMessages = async (req, res) => {
 module.exports = {
   signUp, signIn, verifyUser, userProfile,
   sendMessage, getMessages,
-  getEvents, getEvent, createEvent
+  getEvents, getEvent, createEvent, editEvent, deleteEvent 
 }

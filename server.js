@@ -5,7 +5,8 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const db = require("./db");
-const routes = require('./routes')
+const routes = require("./routes")
+const mongoose = require("mongoose")
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,6 +16,8 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use('/api', routes)
+
+mongoose.set('useFindAndModify', false);
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 

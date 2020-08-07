@@ -15,6 +15,8 @@ router.get("/userprofile", (req, res) => controller.userProfile(req, res));
 router.get("/events", (req, res) => controller.getEvents(req, res));
 router.get("/events/:id", (req, res) => controller.getEvent(req, res));
 router.post("/events/", (req, res) => controller.createEvent(req, res));
+router.put("/events/:id", (req, res) => controller.editEvent(req, res));
+router.delete("/events/:id", (req, res) => controller.deleteEvent(req, res));
 
 // messages 
 router.post("/messages", (req, res) => controller.sendMessage(req, res));
