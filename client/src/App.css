@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  font-family: "Helvetica Neue", "Avenir", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Header nav */
+
+.nav-container {
+  width: 100vw;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  background-color: #7fbec6;
+  opacity: 0.6;
+}
+
+.nav-header {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0 8%;
+  justify-content: space-between;
+}
+
+.nav-text {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-text:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.nav-left-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.nav-right-menu {
+  display: flex;
+  justify-content: center;
+  width: 45%;
+  white-space: nowrap;
+}
+
+.nav-right-menu > ul {
+  width: 30%;
+  list-style: none;
+  display: inline-flex;
+  justify-content: space-between;
+  margin: 0 10px;
+}
+
+/* HERO */
+
+.hero {
+  background-image: url(https://i.imgur.com/K4LpzYq.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: calc(100% - 80px);
+  width: 100%;
+}
+
+.hero h1,
+.hero h4 {
+  color: salmon;
+  text-shadow: 2px 2px #444;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 25%;
+}
+
+.hero h4 {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 40%;
+}
+
+/* login links */
+
+.loginLinks {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.profileImg {
+  display: flex;
+  justify-content: center;
+}
+.profileImg img {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.profilePage h2 {
+  text-align: center;
+}
+
+.profilePage h4 {
+  text-align: center;
+}
