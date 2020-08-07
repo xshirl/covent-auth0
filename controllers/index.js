@@ -123,9 +123,9 @@ const userProfile = async (req, res) => {
 // get all events, option to query for public 
 const getEvents = async (req, res) => {
   try {
-    const { public } = req.query; 
+    const { isPublic } = req.query.public; 
 
-    if (typeof public === 'string') {
+    if (typeof isPublic === 'string') {
       console.log('Checking public events: ')
       const publicEvents = await Event.find({
         isPublic: true
