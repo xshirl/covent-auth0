@@ -16,7 +16,7 @@ export default class Home extends Component {
 
         <Search />
         <EventForm />
-        <PublicEventList />
+        {/* <PublicEventList /> */}
       </div>
     );
   }
