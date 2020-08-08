@@ -5,34 +5,40 @@ const Event = new Schema(
   {
     event_name: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     isPublic: {
       type: Boolean,
       required: true,
-      default: true  
+      default: true,
     },
     date: {
       type: String,
-      required: true
+      required: true,
     },
     startTime: {
       type: String,
-      required: true
+      required: true,
+    },
+    videoLink: {
+      type: String,
+      required: true,
     },
     creator: {
       type: Schema.Types.ObjectId,
       ref: "users",
-      required: true
+      required: true,
     },
-    attendees: [{
-      type: Schema.Types.ObjectId,
-      ref: "users"
-    }],
+    attendees: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+      },
+    ],
   },
   {
     timestamps: true,
