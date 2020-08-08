@@ -34,6 +34,64 @@ const userOfRequest = (req) => {
   }
 };
 
+// accept and finalize friend request 
+const finalizeFriendRequest = async (friendRequest) => {
+  try {
+    // change friend request to confirmed 
+    await FriendRequest.findByIdAndUpdate(
+      friendRequest._id,
+      { confirmed: true },
+      { new: true },
+      (error, event) => {
+        if (error) {
+          throw (error);
+        }
+        if (!event) {
+          throw ('No friend request found');
+        }
+        // would return true in other cases but we don't want to return yet
+      }
+    );
+
+    // change creator to have friendID in array 
+    await User.findByIdAndUpdate(
+      friendRequest.creator,
+      { $push: {friends: friendRequest.recipient} },
+      { new: true },
+      (error, event) => {
+        if (error) {
+          throw (error);
+        }
+        if (!event) {
+          throw ('No friend request creator found');
+        }
+        // would return true in other cases but we don't want to return yet
+      }
+    );
+
+    // change recipient to have friendID in array
+    await User.findByIdAndUpdate(
+      friendRequest.recipient,
+      { $push: {friends: friendRequest.creator} },
+      { new: true },
+      (error, event) => {
+        if (error) {
+          throw (error);
+        }
+        if (!event) {
+          throw ('No friend request found');
+        }
+        // would return true in other cases but we don't want to return yet
+      }
+    );
+
+    return true 
+  } catch (error) {
+    console.log(error);
+    return false 
+  }
+}
+
 // USERS - Auth
 const signUp = async (req, res) => {
   try {
@@ -506,6 +564,36 @@ const getFriendRequests = async (req, res) => {
   } 
 }
 
+// accept friend request 
+const acceptFriendRequest = async (req, res) => {
+  try {
+    const legit = await userOfRequest(req);
+
+    if (legit) {
+      const { id } = legit;
+
+      console.log(id)
+
+      // check if friend request is actually to you 
+      const friendRequest = await FriendRequest.findById(req.params.id);
+
+      if (id !== friendRequest.recipient.toString()) {
+        return res.status(401).send("Not Authorized");
+      } else if (friendRequest.confirmed) {
+        return res.status(401).send("No unconfirmed friend request");
+      } else {
+
+        await finalizeFriendRequest(friendRequest);
+
+        return res.status(200).send(friendRequest);
+      }
+    } else {
+      return res.status(401).send("Not Authorized");
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  } 
+}
 
 
 // export functions
@@ -524,5 +612,6 @@ module.exports = {
   deleteEvent,
   searchEvents,
   createFriendRequest,
-  getFriendRequests
+  getFriendRequests,
+  acceptFriendRequest
 };
