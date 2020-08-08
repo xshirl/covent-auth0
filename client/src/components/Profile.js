@@ -30,16 +30,27 @@ export default class Profile extends Component {
           </nav>
         </div>
 
-        <div className="sidebar"></div>
-
         <div className="profilePage">
-          <div className="profileImg">
-            <img src={this.props.picture} alt={this.props.name} />
+          <div className="sidebar">
+            <nav class="menu">
+              <li className="menu-item">
+                <Link to="/profile/events">Events</Link>
+              </li>
+              <li className="menu-item">
+                <Link to="/profile/friends">Friends</Link>
+              </li>
+            </nav>
           </div>
 
-          <h2 className="welcome"> Welcome {this.props.name} </h2>
-          <hr />
-          <h4>Email: {this.props.email}</h4>
+          <section className="mainProfile">
+            <div className="profileImg">
+              <img src={this.props.picture} alt={this.props.name} />
+            </div>
+
+            <h2 className="welcome"> Welcome {this.props.name} </h2>
+            <hr />
+            <h4>Email: {this.props.email}</h4>
+          </section>
         </div>
       </div>
     );
