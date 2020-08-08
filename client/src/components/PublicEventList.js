@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import api from "../api";
+import { getEvents } from "../api/apiCalls";
 import ReactTable from "react-table";
+
 export default class PublicEventList extends Component {
   constructor(props) {
     super(props);
@@ -12,12 +13,19 @@ export default class PublicEventList extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-    await api.getEvents().then((events) => {
-      this.setState({
-        events: events.data.data,
-        isLoading: false,
-      });
+    const response = await getEvents();
+    console.log(response);
+    this.setState({
+      events: response.events,
+      isLoading: false,
     });
+    // await getEvents().then((events) => {
+    //   console.log(events);
+    //   this.setState({
+    //     events: events.data.data,
+    //     isLoading: false,
+    //   });
+    // });
   };
 
   render() {
