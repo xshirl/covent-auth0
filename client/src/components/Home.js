@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Header from "./Header";
 import EventForm from "./EventForm";
+import Search from "./Search";
 export default class Home extends Component {
   render() {
     return (
@@ -12,17 +13,7 @@ export default class Home extends Component {
           <h4>A community to connect with people through virtual events</h4>
         </section>
 
-        <section className="search">
-          <form>
-            <input
-              type="text"
-              placeholder="Search events"
-              // value={name}
-              name="event"
-            />
-            <button type="submit"></button>
-          </form>
-        </section>
+        <Search />
         <EventForm />
       </div>
     );

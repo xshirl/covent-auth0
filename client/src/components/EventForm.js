@@ -3,9 +3,40 @@ import React, { Component } from "react";
 export default class EventForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      redirect: false,
+      redirectHome: false,
+      event: Object.assign(
+        {
+          name: "",
+          description: "",
+          isPublic: "",
+          date: "",
+          startTime: "",
+          videoLink: "",
+          creator: "",
+        },
+        props.initialValue
+      ),
+    };
   }
-
-  handleSubmit() {}
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    this.setState((prevState, props) => ({
+      event: {
+        ...prevState.event,
+        [name]: value,
+      },
+    }));
+  };
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.onSubmit(this.state.event);
+    this.setState({
+      redirectHome: true,
+    });
+  }
   render() {
     return (
       <React.Fragment>
@@ -15,6 +46,7 @@ export default class EventForm extends Component {
             <label>Event Name</label>
             <input
               className="form-control"
+              value={this.state.event.name}
               name="name"
               onChange={this.handleInputChange}
               type="text"
