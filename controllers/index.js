@@ -483,6 +483,38 @@ const createFriendRequest = async (req, res) => {
   }
 }
 
+// get friend requests (either from you or to you) 
+const getFriendRequests = async (req, res) => {
+  try {
+    const legit = await userOfRequest(req);
+
+    if (legit) {
+      const { id } = legit;
+
+      // return all friend requests from you and to you 
+      // by finding all the requests with your id 
+      const friendRequests = await FriendRequest.find({
+        $or: [
+          { creator: id },
+          { recipient: id }
+        ]
+      });
+
+      // sort them into sent and received then return the response 
+      const sent = friendRequests.filter(fr => fr.creator.toString() === id);
+      const received = friendRequests.filter(fr => fr.recipient.toString() === id);
+
+      return res.status(200).json({ sent, received });
+    } else {
+      return res.status(401).send("Not Authorized");
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  } 
+}
+
+
+
 // export functions
 
 module.exports = {
@@ -498,5 +530,6 @@ module.exports = {
   editEvent,
   deleteEvent,
   searchEvents,
-  createFriendRequest
+  createFriendRequest,
+  getFriendRequests
 };
