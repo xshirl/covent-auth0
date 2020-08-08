@@ -41,11 +41,11 @@ export default class Search extends Component {
   render() {
     return (
       <div className="search-bar">
-        <form onSubmit={this.submit}>
+        <form className="search-form" onSubmit={this.submit}>
           <input
             className="search-input"
             type="text"
-            placeholder="Search events"
+            placeholder="Search events (ie: catan)"
             onChange={this.handleChange}
             value={this.state.searchTerm}
           />
@@ -56,16 +56,12 @@ export default class Search extends Component {
         </form>
 
         {this.state.isLoading ? (
-          <h2 style={{ color: "red" }}>Loading...</h2>
+          <h2 style={{ color: "teal" }}>Loading...</h2>
         ) : null}
 
         {this.state.events.map((event, ind) => {
           return (
-            <section
-              className="events-list"
-              style={{ border: "1px solid black", padding: "10px" }}
-              key={ind}
-            >
+            <section className="events-list" key={ind}>
               <h3>{event.event_name}</h3>
               <h5>Description</h5>
               <p>{event.description}</p>
