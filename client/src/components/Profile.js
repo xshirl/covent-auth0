@@ -4,6 +4,13 @@ import { Link } from "react-router-dom";
 
 export default class Profile extends Component {
   render() {
+    let picture;
+    if (!this.props.picture) {
+      picture =
+        "https://mastodon.sdf.org/system/accounts/avatars/000/108/313/original/035ab20c290d3722.png?1541993604";
+    } else {
+      picture = this.props.picture;
+    }
     return (
       <div className="homepage">
         <div className="nav-container">
@@ -39,17 +46,19 @@ export default class Profile extends Component {
               <li className="menu-item">
                 <Link to="/profile/friends">Friends</Link>
               </li>
+              <li className="menu-item">
+                <Link to="/message/read">Messages</Link>
+              </li>
             </nav>
           </div>
 
           <section className="mainProfile">
             <div className="profileImg">
-              <img src={this.props.picture} alt={this.props.name} />
+              <img src={picture} alt={this.props.name} />
             </div>
 
             <h2 className="welcome"> Welcome {this.props.name} </h2>
             <hr />
-            <h4>Email: {this.props.email}</h4>
           </section>
         </div>
       </div>

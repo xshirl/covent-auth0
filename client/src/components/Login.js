@@ -11,7 +11,7 @@ export default class Login extends Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      name: "",
+      username: "",
       email: "",
       picture: "",
       inputUsername: "",
@@ -58,7 +58,7 @@ export default class Login extends Component {
 
     this.setState({
       isLoggedIn: true,
-      name: response.name,
+      username: response.name,
       email: response.email,
       picture: response.picture.data.url,
     });
@@ -66,9 +66,13 @@ export default class Login extends Component {
 
   render() {
     let fbContent;
-    let { name, email, picture } = this.state;
+    let { username, email, picture, inputUsername } = this.state;
     if (this.state.isLoggedIn) {
-      fbContent = <Profile name={name} email={email} picture={picture} />;
+      if (!inputUsername) {
+        fbContent = <Profile name={username} picture={picture} />;
+      } else {
+        fbContent = <Profile name={inputUsername} />;
+      }
     } else {
       fbContent = (
         <div className="login-page">
