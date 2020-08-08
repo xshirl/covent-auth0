@@ -23,4 +23,7 @@ router.get("/searchevents/:term", (req, res) => controller.searchEvents(req, res
 router.post("/messages", (req, res) => controller.sendMessage(req, res));
 router.get("/messages", (req, res) => controller.getMessages(req, res));
 
+// friends and friend requests 
+router.post("/friendrequests", (req, res) => controller.createFriendRequest(req, res));
+
 module.exports = router;

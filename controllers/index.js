@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Event = require("../models/event");
 const Message = require("../models/message");
+const FriendRequest = require("../models/friendRequest");
+const Mongoose = require("mongoose");
+const ObjectId = require('mongodb').ObjectID;
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -414,6 +417,67 @@ const createFriendRequest = async (req, res) => {
     // 2. check if recipient_id is legitimate 
     // 3. check if friend request either way already exists 
     // 4. create friend request 
+
+    // https://stackoverflow.com/questions/30051236/argument-passed-in-must-be-a-string-of-24-hex-characters-i-think-it-is
+
+    // user creating friend request is defined by user's JWT
+    const legit = await userOfRequest(req);
+
+    if (legit) {
+      const { id } = legit;
+
+      const { reqId, reqUsername } = req.body;
+      // if the id exists use that 
+      // else use requestByUsername 
+      let recipient = null;
+      if (reqId) {
+        recipient = await User.findById(reqId);
+      }
+      if (!recipient) {
+        const recipients = await User.find({ username: reqUsername });
+        recipient = recipients[0];
+      }
+      const recipId = recipient ? recipient._id : null;
+
+      if (!recipId) {
+        return res.status(404).send("Recieving User doesn't exist");
+      }
+
+      // check if friend request already exists 
+      const existingRequests = await FriendRequest.find({
+        $or: [
+          {
+            creator: id,
+            recipient: recipId
+          },
+          {
+            creator: recipId,
+            recipient: id
+          }
+        ]
+      });
+      console.log(existingRequests)
+      if (existingRequests.length > 0) {
+        return res.status(403).send("Friend Request already exists");
+      } else {
+
+        console.log(id, recipId);
+
+        // actually create friend request 
+        let friendRequest = null;
+        if (id && recipId) {
+          friendRequest = new FriendRequest({
+            creator: id,
+            recipient: recipId
+          });
+          await friendRequest.save();
+        }
+
+        return res.status(200).json(friendRequest);
+      }
+    } else {
+      return res.status(401).send("Not Authorized");
+    }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -433,5 +497,6 @@ module.exports = {
   createEvent,
   editEvent,
   deleteEvent,
-  searchEvents
+  searchEvents,
+  createFriendRequest
 };
