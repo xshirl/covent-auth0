@@ -1,5 +1,7 @@
 import api from "./apiConfig";
 
+// EVENTS
+
 export const getEvents = async () => {
   try {
     const response = await api.get("/events?public");
@@ -52,3 +54,23 @@ export const searchEvents = async (term) => {
     throw error;
   }
 };
+
+// MESSAGES 
+
+export const getMessages = async () => {
+  try {
+    const response = await api.get(`/messages`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const sendMessage = async (bodyData) => {
+  try {
+    const response = await api.post(`/messages`, bodyData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

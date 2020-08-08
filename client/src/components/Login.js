@@ -3,9 +3,11 @@ import Header from "./Header";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
 import config from "../config.json";
+import { signin } from "../api/apiUsers"
 import Profile from "./Profile";
 import { signin } from "../api/apiUsers";
 
+<<<<<<< HEAD
 // export default class Login extends Component {
 //   constructor() {
 //     super();
@@ -15,6 +17,44 @@ import { signin } from "../api/apiUsers";
 //   logout = () => {
 //     this.setState({ isAuthenticated: false, token: "", user: null });
 //   };
+=======
+export default class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isAuthenticated: false, user: null, token: "",
+      inputUsername: '', inputPassword: ''
+    };
+  }
+
+  handleChange = (e, stateName) => {
+    this.setState({
+      [stateName]: e.target.value
+    });
+  }
+
+  submitSignin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await signin({
+        username: this.state.inputUsername,
+        password: this.state.inputPassword
+      });
+
+      console.log(response);
+      this.setState({
+        inputUsername: '', inputPassword: ''
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  logout = () => {
+    this.setState({ isAuthenticated: false, token: "", user: null });
+    localStorage.removeItem('token');
+  };
+>>>>>>> 89bc3fe40d8a76a7b62ab15396d0a52552584198
 
 //   onFailure = (error) => {
 //     alert(error);
@@ -146,9 +186,29 @@ export default class Login extends Component {
               fields="name,email,picture"
               callback={this.responseFacebook}
             />
+</section>
+
+<section style={{textAlign: "center", border: "1px solid black", margin:"10px 30px", padding:"10px"}}>
+            <form onSubmit={this.submitSignin}>
+              <label htmlFor="username">Username</label>
+              <input name="username"
+                type="text"
+                value={this.state.inputUsername}
+                onChange={(e) => this.handleChange(e, 'inputUsername')}
+              />
+
+              <label htmlFor="password">Password</label>
+              <input name="password"
+                type="password"
+                value={this.state.inputPassword}
+                onChange={(e) => this.handleChange(e, 'inputPassword')}
+              />
+
+              <button>Submit</button>
+            </form>
           </section>
-        </div>
-      );
+
+</div>)
     }
 
     return <div>{fbContent}</div>;
