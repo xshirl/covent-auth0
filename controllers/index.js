@@ -101,16 +101,14 @@ const signUp = async (req, res) => {
     const user = await new User({
       username,
       name,
-      password_digest,
-      admin_key,
+      password_digest
     });
     await user.save();
 
     const payload = {
       id: user._id,
       username: user.username,
-      name: user.name,
-      admin_key: user.admin_key,
+      name: user.name
     };
 
     const token = jwt.sign(payload, TOKEN_KEY);
@@ -129,8 +127,7 @@ const signIn = async (req, res) => {
       const payload = {
         id: user._id,
         username: user.username,
-        name: user.name,
-        admin_key: user.admin_key,
+        name: user.name
       };
       const token = jwt.sign(payload, TOKEN_KEY);
       return res.status(201).json({ user: payload, token });
@@ -148,7 +145,17 @@ const verifyUser = async (req, res) => {
     // can only verify with JWT
     const legit = await userOfRequest(req);
 
-    if (legit) return res.status(200).json({ user: legit });
+    if (legit) {
+      const user = await User.findById(legit.id);
+
+      const profile = {
+        id: user._id,
+        username: user.username,
+        name: user.name
+      };
+
+      return res.status(200).json({ user: profile });
+    }
     return res.status(401).send("Not Authorized");
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -446,11 +453,15 @@ const getMessages = async (req, res) => {
         // find messages that contain the user's id in recipients
         // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value
         // using $in or $all works when it's one value you are looking for
-        const messages = await Message.find({
+        const recievedMessages = await Message.find({
           recipients: { $in: [legit.id] },
         });
 
-        return res.status(200).json(messages);
+        const sentMessages = await Message.find({
+          creator: legit.id 
+        })
+
+        return res.status(200).json({ recievedMessages, sentMessages });
       }
     }
     return res.status(401).send("Not Authorized");

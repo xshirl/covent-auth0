@@ -4,7 +4,9 @@ import Home from "./components/Home";
 import Login from "./components/Login.js";
 import Profile from "./components/Profile";
 import Search from "./components/Search"
+import MessageRead from "./components/MessageRead"
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { verifyuser } from "./api/apiUsers"
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -15,6 +17,25 @@ export default class App extends Component {
       events: [],
       currentUser: null,
     };
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await verifyuser();
+      console.log(response);
+      this.setState({
+        currentUser: response.user 
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  signout = async () => {
+    localStorage.removeItem('token');
+    this.setState({
+      currentUser: null
+    });
   }
 
   render() {
@@ -43,6 +64,7 @@ export default class App extends Component {
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/search" component={Search} />
+        <Route exact path="/readmessages" component={MessageRead} />
       </Router>
     );
   }
