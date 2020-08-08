@@ -17,7 +17,7 @@ const Event = new Schema(
       default: true  
     },
     date: {
-      type: Date,
+      type: String,
       required: true
     },
     startTime: {
