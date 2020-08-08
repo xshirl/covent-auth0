@@ -183,8 +183,6 @@ const createEvent = async (req, res) => {
     if (legit) {
       const eventData = req.body;
 
-      // assumes eventData.date has a valid string of date format
-      eventData.date = new Date(eventData.date);
       eventData.creator = legit.id;
       eventData.attendees = [];
       const event = await new Event(eventData);
@@ -213,11 +211,6 @@ const editEvent = async (req, res) => {
       }
 
       const eventData = req.body;
-
-      // assumes eventData.date has a valid string of date format
-      if (eventData.date) {
-        eventData.date = new Date(eventData.date);
-      }
 
       await Event.findByIdAndUpdate(
         req.params.id,
