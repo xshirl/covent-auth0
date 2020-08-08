@@ -3,15 +3,15 @@ import Header from "./Header";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
 import config from "../config.json";
-import { signin } from "../api/apiUsers"
+import { signup } from "../api/apiUsers"
 import Profile from "./Profile";
 
-export default class Login extends Component {
+export default class Signup extends Component {
   constructor() {
     super();
     this.state = {
       isAuthenticated: false, user: null, token: "",
-      inputUsername: '', inputPassword: ''
+      inputUsername: '', inputPassword: '', inputName: ''
     };
   }
 
@@ -24,14 +24,16 @@ export default class Login extends Component {
   submitSignin = async (e) => {
     e.preventDefault();
     try {
-      const response = await signin({
+      const response = await signup({
         username: this.state.inputUsername,
-        password: this.state.inputPassword
+        password: this.state.inputPassword,
+        name: this.state.inputName
       });
 
       console.log(response);
       this.setState({
-        inputUsername: '', inputPassword: ''
+        inputUsername: '', inputPassword: '',
+        inputName: ''
       });
     } catch (error) {
       console.log(error);
@@ -130,6 +132,13 @@ export default class Login extends Component {
                 type="text"
                 value={this.state.inputUsername}
                 onChange={(e) => this.handleChange(e, 'inputUsername')}
+              />
+
+              <label htmlFor="actualname">Name or Nickname</label>
+              <input name="actualname"
+                type="text"
+                value={this.state.inputName}
+                onChange={(e) => this.handleChange(e, 'inputName')}
               />
               
               <label htmlFor="password">Password</label>

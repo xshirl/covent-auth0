@@ -65,3 +65,12 @@ export const getMessages = async () => {
     throw error;
   }
 }
+
+export const sendMessage = async (bodyData) => {
+  try {
+    const response = await api.post(`/messages`, bodyData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
