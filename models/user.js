@@ -11,8 +11,7 @@ const User = new Schema(
     },
     name: {
       type: String,
-      required: true,
-      unique: true,
+      required: true
     },
     password_digest: {
       type: String,

@@ -34,6 +34,64 @@ const userOfRequest = (req) => {
   }
 };
 
+// accept and finalize friend request 
+const finalizeFriendRequest = async (friendRequest) => {
+  try {
+    // change friend request to confirmed 
+    await FriendRequest.findByIdAndUpdate(
+      friendRequest._id,
+      { confirmed: true },
+      { new: true },
+      (error, event) => {
+        if (error) {
+          throw (error);
+        }
+        if (!event) {
+          throw ('No friend request found');
+        }
+        // would return true in other cases but we don't want to return yet
+      }
+    );
+
+    // change creator to have friendID in array 
+    await User.findByIdAndUpdate(
+      friendRequest.creator,
+      { $push: {friends: friendRequest.recipient} },
+      { new: true },
+      (error, event) => {
+        if (error) {
+          throw (error);
+        }
+        if (!event) {
+          throw ('No friend request creator found');
+        }
+        // would return true in other cases but we don't want to return yet
+      }
+    );
+
+    // change recipient to have friendID in array
+    await User.findByIdAndUpdate(
+      friendRequest.recipient,
+      { $push: {friends: friendRequest.creator} },
+      { new: true },
+      (error, event) => {
+        if (error) {
+          throw (error);
+        }
+        if (!event) {
+          throw ('No friend request found');
+        }
+        // would return true in other cases but we don't want to return yet
+      }
+    );
+
+    return true 
+  } catch (error) {
+    console.log(error);
+    return false 
+  }
+}
+
 // USERS - Auth
 const signUp = async (req, res) => {
   try {
@@ -43,16 +101,14 @@ const signUp = async (req, res) => {
     const user = await new User({
       username,
       name,
-      password_digest,
-      admin_key,
+      password_digest
     });
     await user.save();
 
     const payload = {
       id: user._id,
       username: user.username,
-      name: user.name,
-      admin_key: user.admin_key,
+      name: user.name
     };
 
     const token = jwt.sign(payload, TOKEN_KEY);
@@ -71,8 +127,7 @@ const signIn = async (req, res) => {
       const payload = {
         id: user._id,
         username: user.username,
-        name: user.name,
-        admin_key: user.admin_key,
+        name: user.name
       };
       const token = jwt.sign(payload, TOKEN_KEY);
       return res.status(201).json({ user: payload, token });
@@ -90,7 +145,17 @@ const verifyUser = async (req, res) => {
     // can only verify with JWT
     const legit = await userOfRequest(req);
 
-    if (legit) return res.status(200).json({ user: legit });
+    if (legit) {
+      const user = await User.findById(legit.id);
+
+      const profile = {
+        id: user._id,
+        username: user.username,
+        name: user.name
+      };
+
+      return res.status(200).json({ user: profile });
+    }
     return res.status(401).send("Not Authorized");
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -374,26 +439,39 @@ const getMessages = async (req, res) => {
     const legit = await userOfRequest(req);
 
     if (legit) {
-      // if type = sent as query
-      const { sent } = req.query;
+      // find messages that contain the user's id in recipients
+      // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value
+      // using $in or $all works when it's one value you are looking for
+      const receivedMessages = await Message.find({
+        recipients: { $in: [legit.id] },
+      }).populate('creator').populate('recipients');
+      
+      const received = receivedMessages.map(msg => {
+        return {
+          subject: msg.subject,
+          content: msg.content,
+          creator: msg.creator.username,
+          recipients: msg.recipients.map(recip => recip.username),
+          createdAt: msg.createdAt
+        }
+      });
 
-      if (typeof sent === "string") {
-        // find messages that match the creator
-        const messages = await Message.find({
-          creator: legit.id,
-        });
+      const sentMessages = await Message.find({
+        creator: legit.id
+      }).populate('creator').populate('recipients');
 
-        return res.status(200).json(messages);
-      } else {
-        // find messages that contain the user's id in recipients
-        // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value
-        // using $in or $all works when it's one value you are looking for
-        const messages = await Message.find({
-          recipients: { $in: [legit.id] },
-        });
+      const sent = sentMessages.map(msg => {
+        return {
+          subject: msg.subject,
+          content: msg.content,
+          creator: msg.creator.username,
+          recipients: msg.recipients.map(recip => recip.username),
+          createdAt: msg.createdAt
+        }
+      });
 
-        return res.status(200).json(messages);
-      }
+      return res.status(200).json({ received, sent });
+      
     }
     return res.status(401).send("Not Authorized");
   } catch (error) {
@@ -433,7 +511,7 @@ const createFriendRequest = async (req, res) => {
       const recipId = recipient ? recipient._id : null;
 
       if (!recipId) {
-        return res.status(404).send("Recieving User doesn't exist");
+        return res.status(404).send("Receiving User doesn't exist");
       }
 
       // check if friend request already exists 
@@ -506,6 +584,36 @@ const getFriendRequests = async (req, res) => {
   } 
 }
 
+// accept friend request 
+const acceptFriendRequest = async (req, res) => {
+  try {
+    const legit = await userOfRequest(req);
+
+    if (legit) {
+      const { id } = legit;
+
+      console.log(id)
+
+      // check if friend request is actually to you 
+      const friendRequest = await FriendRequest.findById(req.params.id);
+
+      if (id !== friendRequest.recipient.toString()) {
+        return res.status(401).send("Not Authorized");
+      } else if (friendRequest.confirmed) {
+        return res.status(401).send("No unconfirmed friend request");
+      } else {
+
+        await finalizeFriendRequest(friendRequest);
+
+        return res.status(200).send(friendRequest);
+      }
+    } else {
+      return res.status(401).send("Not Authorized");
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  } 
+}
 
 
 // export functions
@@ -524,5 +632,6 @@ module.exports = {
   deleteEvent,
   searchEvents,
   createFriendRequest,
-  getFriendRequests
+  getFriendRequests,
+  acceptFriendRequest
 };
