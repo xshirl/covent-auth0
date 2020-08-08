@@ -35,6 +35,7 @@ export default class Login extends Component {
 
       console.log(response);
       this.setState({
+        isLoggedIn: true,
         inputUsername: "",
         inputPassword: "",
       });
@@ -48,20 +49,18 @@ export default class Login extends Component {
     localStorage.removeItem("token");
   };
 
-  responseFacebook = async (response) => {
+  responseFacebook = (response) => {
     console.log(response);
+    signin({
+      username: response.name,
+      password_digest: response.accessToken,
+    });
 
     this.setState({
       isLoggedIn: true,
       name: response.name,
       email: response.email,
       picture: response.picture.data.url,
-    });
-
-    await signin({
-      name: response.name,
-      email: response.email,
-      password_digest: response.accessToken,
     });
   };
 
