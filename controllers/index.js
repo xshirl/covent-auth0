@@ -31,7 +31,7 @@ const userOfRequest = (req) => {
   }
 }
 
-//USERS
+// USERS - Auth
 const signUp = async (req, res) => {
   try {
     console.log(req.body);
@@ -123,7 +123,7 @@ const userProfile = async (req, res) => {
 // get all events, option to query for public 
 const getEvents = async (req, res) => {
   try {
-    const { isPublic } = req.query.public; 
+    const isPublic = req.query.public; 
 
     if (typeof isPublic === 'string') {
       console.log('Checking public events: ')
@@ -181,6 +181,8 @@ const createEvent = async (req, res) => {
 
       // assumes eventData.date has a valid string of date format 
       eventData.date = new Date(eventData.date);
+      eventData.creator = legit.id;
+      eventData.attendees = [];
 
       const event = await new Event(eventData);
 
@@ -371,6 +373,19 @@ const getMessages = async (req, res) => {
   }
 }
 
+// Friends - part of USERS
+
+// create or try to create friend request 
+const createFriendRequest = async (req, res) => {
+  try {
+    // 1. check if logged in user 
+    // 2. check if recipient_id is legitimate 
+    // 3. check if friend request either way already exists 
+    // 4. create friend request 
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 // export functions 
 
