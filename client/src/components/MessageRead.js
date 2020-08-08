@@ -32,7 +32,7 @@ export default class MessageRead extends Component {
             return <div key={ind} style={{ border: "1px solid black", padding: "10px" }}>
               <h2>Subject: {message.subject}</h2>
               <h4>From: {message.creator}</h4>
-              <h4>To: {message.recipients}</h4>
+              <h4>To: {message.recipients.join(', ')}</h4>
               <h4>Content:</h4>
               <p>{message.content}</p>
             </div>
@@ -44,7 +44,7 @@ export default class MessageRead extends Component {
             return <div key={ind} style={{ border: "1px solid black", padding: "10px" }}>
               <h2>Subject: {message.subject}</h2>
               <h4>From: {message.creator}</h4>
-              <h4>To: {message.recipients}</h4>
+              <h4>To: {message.recipients.join(', ')}</h4>
               <h4>Content:</h4>
               <p>{message.content}</p>
             </div>
