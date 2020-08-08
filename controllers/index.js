@@ -31,7 +31,7 @@ const userOfRequest = (req) => {
   }
 };
 
-//USERS
+// USERS - Auth
 const signUp = async (req, res) => {
   try {
     console.log(req.body);
@@ -123,10 +123,10 @@ const userProfile = async (req, res) => {
 // get all events, option to query for public
 const getEvents = async (req, res) => {
   try {
-    const isPublic = req.query;
+    const isPublic = req.query.public; 
 
-    if (typeof isPublic === "string") {
-      console.log("Checking public events: ");
+    if (typeof isPublic === 'string') {
+      console.log('Checking public events: ')
       const publicEvents = await Event.find({
         isPublic: true,
       });
@@ -266,6 +266,26 @@ const deleteEvent = async (req, res) => {
   }
 };
 
+// search events with search term (return public events)
+// Using $or with multiple fields 
+// https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
+const searchEvents = async (req, res) => {
+  try {
+    const {term} = req.params;
+
+    const events = await Event.find({
+      $or: [
+        { "event_name": { $regex: term, $options: "i" } },
+        { "description": { $regex: term, $options: "i" } }
+      ]
+    });
+
+    return res.status(200).json(events);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
 // MESSAGES
 // post with subject, content and recipients
 // recipients is a string of usernames separated by commas and spaces
@@ -383,7 +403,21 @@ const getMessages = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-};
+}
+
+// Friends - part of USERS
+
+// create or try to create friend request 
+const createFriendRequest = async (req, res) => {
+  try {
+    // 1. check if logged in user 
+    // 2. check if recipient_id is legitimate 
+    // 3. check if friend request either way already exists 
+    // 4. create friend request 
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 // export functions
 
@@ -399,4 +433,5 @@ module.exports = {
   createEvent,
   editEvent,
   deleteEvent,
+  searchEvents
 };

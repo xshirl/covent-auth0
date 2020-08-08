@@ -3,6 +3,7 @@ const db = require('../db');
 const User = require('../models/user');
 const Event = require('../models/event')
 const Message = require('../models/message')
+const FriendRequest = require('../models/friendRequest')
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 const SALT_ROUNDS = 11;
@@ -55,9 +56,9 @@ const createSeedData = async () => {
         seededUsers[1]['_id']
       ]
     }
-  ]
-  await Event.insertMany(events)
-  console.log('Successfully created events!')
+  ];
+  await Event.insertMany(events);
+  console.log('Successfully created events!');
 
   const messages = [
     {
@@ -69,10 +70,20 @@ const createSeedData = async () => {
       subject: 'About the meetup',
       content: 'It will be held remotely instead, sorry!'
     }
-  ]
+  ];
 
-  await Message.insertMany(messages)
-  console.log('Successfully created messages!')
+  await Message.insertMany(messages);
+  console.log('Successfully created messages!');
+
+  const friendRequests = [
+    {
+      creator: seededUsers[0]['_id'],
+      recipient: seededUsers[1]['_id']
+    }
+  ];
+
+  await FriendRequest.insertMany(friendRequests);
+  console.log('Successfully created friendRequests!');
 };
 
 const run = async () => {

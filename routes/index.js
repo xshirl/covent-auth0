@@ -17,6 +17,7 @@ router.get("/events/:id", (req, res) => controller.getEvent(req, res));
 router.post("/events/", (req, res) => controller.createEvent(req, res));
 router.put("/events/:id", (req, res) => controller.editEvent(req, res));
 router.delete("/events/:id", (req, res) => controller.deleteEvent(req, res));
+router.get("/searchevents/:term", (req, res) => controller.searchEvents(req, res));
 
 // messages 
 router.post("/messages", (req, res) => controller.sendMessage(req, res));
