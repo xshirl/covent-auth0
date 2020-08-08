@@ -3,6 +3,7 @@ import About from "./components/About";
 import Home from "./components/Home";
 import Login from "./components/Login.js";
 import Profile from "./components/Profile";
+import Search from "./components/Search"
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -41,6 +42,7 @@ export default class App extends Component {
         <Route exact path="/about" component={About} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/search" component={Search} />
       </Router>
     );
   }

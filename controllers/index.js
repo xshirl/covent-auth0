@@ -123,11 +123,7 @@ const userProfile = async (req, res) => {
 // get all events, option to query for public
 const getEvents = async (req, res) => {
   try {
-<<<<<<< HEAD
     const isPublic = req.query.public; 
-=======
-    const isPublic = req.query;
->>>>>>> 79b1bbb80007640bb23fccc62838a31271346b8c
 
     if (typeof isPublic === 'string') {
       console.log('Checking public events: ')
@@ -269,6 +265,26 @@ const deleteEvent = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
+// search events with search term (return public events)
+// Using $or with multiple fields 
+// https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
+const searchEvents = async (req, res) => {
+  try {
+    const {term} = req.params;
+
+    const events = await Event.find({
+      $or: [
+        { "event_name": { $regex: term, $options: "i" } },
+        { "description": { $regex: term, $options: "i" } }
+      ]
+    });
+
+    return res.status(200).json(events);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+}
 
 // MESSAGES
 // post with subject, content and recipients
@@ -417,4 +433,5 @@ module.exports = {
   createEvent,
   editEvent,
   deleteEvent,
+  searchEvents
 };

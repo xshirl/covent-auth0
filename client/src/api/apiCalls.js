@@ -1,17 +1,26 @@
 import api from "./apiConfig";
 
-export const createEvent = async (payload) => {
+export const getEvents = async () => {
   try {
-    const response = await api.post("/events", payload);
+    const response = await api.get("/events?public");
     return response.data;
   } catch (error) {
     throw error;
   }
 };
 
-export const getEvents = async () => {
+export const getEvent = async (id) => {
   try {
-    const response = await api.get("/events?public");
+    const response = await api.get(`/events/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createEvent = async (payload) => {
+  try {
+    const response = await api.post("/events", payload);
     return response.data;
   } catch (error) {
     throw error;
@@ -27,7 +36,7 @@ export const updateEventById = async (id, payload) => {
   }
 };
 
-export const deleteMovieById = async (id) => {
+export const deleteEventById = async (id) => {
   try {
     const response = await api.delete(`/event/${id}`);
   } catch (error) {
@@ -35,9 +44,9 @@ export const deleteMovieById = async (id) => {
   }
 };
 
-export const getEvent = async (id) => {
+export const searchEvents = async (term) => {
   try {
-    const response = await api.get(`/event/${id}`);
+    const response = await api.get(`/searchevents/${term}`);
     return response.data;
   } catch (error) {
     throw error;
