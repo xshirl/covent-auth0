@@ -6,8 +6,8 @@ export default class MessageRead extends Component {
     super()
 
     this.state = {
-      receivedMessages: [],
-      sentMessages: []
+      received: [],
+      sent: []
     };
   }
 
@@ -28,7 +28,7 @@ export default class MessageRead extends Component {
       <div>
         <h2>Inbox</h2>
         {
-          this.state.receivedMessages.map((message, ind) => {
+          this.state.received.map((message, ind) => {
             return <div key={ind} style={{ border: "1px solid black", padding: "10px" }}>
               <h2>Subject: {message.subject}</h2>
               <h4>From: {message.creator}</h4>
@@ -40,7 +40,7 @@ export default class MessageRead extends Component {
         }
         <h2>Sent Messages</h2>
         {
-          this.state.sentMessages.map((message, ind) => {
+          this.state.sent.map((message, ind) => {
             return <div key={ind} style={{ border: "1px solid black", padding: "10px" }}>
               <h2>Subject: {message.subject}</h2>
               <h4>From: {message.creator}</h4>

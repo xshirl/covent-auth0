@@ -439,30 +439,39 @@ const getMessages = async (req, res) => {
     const legit = await userOfRequest(req);
 
     if (legit) {
-      // if type = sent as query
-      const { sent } = req.query;
+      // find messages that contain the user's id in recipients
+      // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value
+      // using $in or $all works when it's one value you are looking for
+      const receivedMessages = await Message.find({
+        recipients: { $in: [legit.id] },
+      }).populate('creator').populate('recipients');
+      
+      const received = receivedMessages.map(msg => {
+        return {
+          subject: msg.subject,
+          content: msg.content,
+          creator: msg.creator.username,
+          recipients: msg.recipients.map(recip => recip.username),
+          createdAt: msg.createdAt
+        }
+      });
 
-      if (typeof sent === "string") {
-        // find messages that match the creator
-        const messages = await Message.find({
-          creator: legit.id,
-        });
+      const sentMessages = await Message.find({
+        creator: legit.id
+      }).populate('creator').populate('recipients');
 
-        return res.status(200).json(messages);
-      } else {
-        // find messages that contain the user's id in recipients
-        // https://stackoverflow.com/questions/18148166/find-document-with-array-that-contains-a-specific-value
-        // using $in or $all works when it's one value you are looking for
-        const recievedMessages = await Message.find({
-          recipients: { $in: [legit.id] },
-        });
+      const sent = sentMessages.map(msg => {
+        return {
+          subject: msg.subject,
+          content: msg.content,
+          creator: msg.creator.username,
+          recipients: msg.recipients.map(recip => recip.username),
+          createdAt: msg.createdAt
+        }
+      });
 
-        const sentMessages = await Message.find({
-          creator: legit.id 
-        })
-
-        return res.status(200).json({ recievedMessages, sentMessages });
-      }
+      return res.status(200).json({ received, sent });
+      
     }
     return res.status(401).send("Not Authorized");
   } catch (error) {
@@ -502,7 +511,7 @@ const createFriendRequest = async (req, res) => {
       const recipId = recipient ? recipient._id : null;
 
       if (!recipId) {
-        return res.status(404).send("Recieving User doesn't exist");
+        return res.status(404).send("Receiving User doesn't exist");
       }
 
       // check if friend request already exists 
