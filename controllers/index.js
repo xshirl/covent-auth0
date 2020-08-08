@@ -123,7 +123,7 @@ const userProfile = async (req, res) => {
 // get all events, option to query for public
 const getEvents = async (req, res) => {
   try {
-    const { isPublic } = req.query;
+    const isPublic = req.query;
 
     if (typeof isPublic === "string") {
       console.log("Checking public events: ");
@@ -182,7 +182,8 @@ const createEvent = async (req, res) => {
 
       // assumes eventData.date has a valid string of date format
       eventData.date = new Date(eventData.date);
-
+      eventData.creator = legit.id;
+      eventData.attendees = [];
       const event = await new Event(eventData);
 
       await event.save();

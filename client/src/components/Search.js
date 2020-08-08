@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import api from "../api";
+import { getEvents } from "../api/apiCalls";
 
 export default class Search extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class Search extends Component {
 
   submit = async (event) => {
     this.setState({ isLoading: true });
-    await api.getEvents().then((events) => {
+    await getEvents().then((events) => {
       this.setState({
         events: events.data.data,
         isLoading: false,

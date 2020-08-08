@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "./Header";
 import EventForm from "./EventForm";
 import Search from "./Search";
+import PublicEventList from "./PublicEventList";
 export default class Home extends Component {
   render() {
     return (
@@ -15,6 +16,7 @@ export default class Home extends Component {
 
         <Search />
         <EventForm />
+        <PublicEventList />
       </div>
     );
   }
