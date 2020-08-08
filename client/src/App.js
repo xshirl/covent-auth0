@@ -5,6 +5,8 @@ import Login from "./components/Login.js";
 import Profile from "./components/Profile";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
+import "bootstrap/dist/css/bootstrap.css";
+
 export default class App extends Component {
   constructor(props) {
     super(props);

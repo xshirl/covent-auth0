@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from "./Header";
-
+import EventForm from "./EventForm";
 export default class Home extends Component {
   render() {
     return (
@@ -23,6 +23,7 @@ export default class Home extends Component {
             <button type="submit"></button>
           </form>
         </section>
+        <EventForm />
       </div>
     );
   }
