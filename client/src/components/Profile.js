@@ -3,7 +3,7 @@ import Login from "./Login";
 import { Link } from "react-router-dom";
 import EventForm from "./EventForm";
 import { userProfile } from "../api/apiUsers";
-
+import Header from "./Header";
 export default class Profile extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +36,8 @@ export default class Profile extends Component {
     }
     return (
       <div className="homepage">
-        <div className="nav-container">
+        <Header />
+        {/* <div className="nav-container">
           <nav className="nav-header">
             <div className="nav-left-logo">
               <Link className="nav-text" to="/">
@@ -58,7 +59,7 @@ export default class Profile extends Component {
               </ul>
             </div>
           </nav>
-        </div>
+        </div> */}
 
         <div className="profilePage">
           <div className="sidebar">
@@ -92,12 +93,12 @@ export default class Profile extends Component {
               </div>
             </div>
 
-            <div className="eventsList">
+            <div className="create">
               <div className="created">
                 <h2>Created Events</h2>
                 {created.map((event) => {
                   return (
-                    <div className="event">
+                    <div className="createBox">
                       <Link to={`/events/${event.id}`}>{event.event_name}</Link>
                     </div>
                   );
@@ -108,8 +109,8 @@ export default class Profile extends Component {
                 <h2>Attending Events </h2>
                 {attending.map((event) => {
                   return (
-                    <div className="event">
-                      <Link to={`/events/${event.id}`}>{event.name}</Link>
+                    <div className="createBox">
+                      <Link to={`/events/${event.id}`}>{event.event_name}</Link>
                     </div>
                   );
                 })}

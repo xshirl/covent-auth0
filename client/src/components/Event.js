@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { getEvent } from "../api/apiCalls";
-import HeaderProfile from "./HeaderProfile";
+import Header from "./HeaderProfile";
 import { verifyuser } from "../api/apiUsers";
 import { attendEvent } from "../api/apiCalls";
 
@@ -54,7 +54,7 @@ class Event extends Component {
         attendees.includes(this.state.userId) || !this.state.userId;
       return (
         <div>
-          <HeaderProfile />
+          <Header />
           <div className="eventPage container">
             <h1>Event Name: {event_name}</h1>
             <p>Description: {description}</p>

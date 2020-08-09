@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { verifyuser } from "../api/apiUsers";
 import { sendMessage } from "../api/apiCalls";
-import HeaderProfile from "./HeaderProfile";
+import Header from "./HeaderProfile";
 class MessageWrite extends Component {
   constructor() {
     super();
@@ -50,7 +50,7 @@ class MessageWrite extends Component {
   render() {
     return (
       <div>
-        <HeaderProfile />
+        <Header />
         <div className="messageForm container">
           {this.state.username ? (
             <h3>Logged in as {this.state.username}</h3>

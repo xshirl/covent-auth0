@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { createEvent } from "../api/apiCalls";
-import HeaderProfile from "./HeaderProfile";
+import Header from "./HeaderProfile";
 export default class EventForm extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +13,7 @@ export default class EventForm extends Component {
         isPublic: true,
         date: "",
         startTime: "",
-        videoLink: ""
+        videoLink: "",
       },
     };
   }
@@ -43,7 +43,7 @@ export default class EventForm extends Component {
   render() {
     return (
       <React.Fragment>
-        <HeaderProfile />
+        <Header />
         <div className="container">
           <h1 className="event-form">Create Event </h1>
           <form onSubmit={this.submit}>
@@ -76,7 +76,12 @@ export default class EventForm extends Component {
                 value={true}
               />
               <label>Private</label>
-              <input onChange={this.handleInputChange} type="radio" name="isPublic" value={false} />
+              <input
+                onChange={this.handleInputChange}
+                type="radio"
+                name="isPublic"
+                value={false}
+              />
             </div>
             <div>
               <label>Event Date</label>
@@ -104,7 +109,7 @@ export default class EventForm extends Component {
                 onChange={this.handleInputChange}
                 type="text"
                 name="videoLink"
-                placeholder="Google Meet Link"
+                placeholder="Google Meet or Zoom"
               />
             </div>
             <button type="submit" className="btn btn-primary btn-teal">
