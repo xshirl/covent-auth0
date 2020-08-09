@@ -65,7 +65,7 @@ export default class Profile extends Component {
           <div className="sidebar">
             <nav className="menu">
               <li className="menu-item">
-                <Link to="/profile/events">Events</Link>
+                <Link to="/events">Events</Link>
               </li>
               <li className="menu-item">
                 <Link to="/profile/friends">Friends</Link>

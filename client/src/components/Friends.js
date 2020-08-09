@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { userProfile } from "../api/apiUsers";
-import {} from "../api/apiCalls";
 import "../index.css";
 import {
   getFriendRequests,
@@ -91,8 +90,9 @@ export default class Friends extends Component {
             })}
 
             <h2>Make Friend Request</h2>
-            <form onSubmit={this.makeFR}>
+            <form onSubmit={this.makeFR} className="box-bordered">
               <label>Send Friend Request To This Username</label>
+              <br></br>
               <input
                 type="text"
                 value={this.state.inputFRUsername}
@@ -109,7 +109,7 @@ export default class Friends extends Component {
             <h2>Incoming Friend Requests</h2>
             {received.map((fr) => {
               return (
-                <div>
+                <div className="box-bordered">
                   <p>From: {fr.creator.username}</p>
                   <p>{fr.confirmed ? "Confirmed" : "Awaiting Confirmation"}</p>
                   <button
@@ -127,7 +127,7 @@ export default class Friends extends Component {
             <h2>Outgoing Friend Requests</h2>
             {sent.map((fr) => {
               return (
-                <div>
+                <div className="box-bordered">
                   <p>To: {fr.recipient.username}</p>
                   <p>{fr.confirmed ? "Confirmed" : "Awaiting Confirmation"}</p>
                 </div>

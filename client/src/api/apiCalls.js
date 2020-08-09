@@ -2,9 +2,9 @@ import api from "./apiConfig";
 
 // EVENTS
 
-export const getEvents = async () => {
+export const getEvents = async (isPublic) => {
   try {
-    const response = await api.get("/events?public");
+    const response = await api.get(`/events${isPublic?'?public':''}`);
     return response.data;
   } catch (error) {
     throw error;
