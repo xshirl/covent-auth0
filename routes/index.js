@@ -25,13 +25,6 @@ router.get("/searchevents/:term", (req, res) =>
 router.post("/messages", (req, res) => controller.sendMessage(req, res));
 router.get("/messages", (req, res) => controller.getMessages(req, res));
 
-<<<<<<< HEAD
-// friends and friend requests 
-router.post("/friendrequests", (req, res) => controller.createFriendRequest(req, res));
-router.get("/friendrequests", (req, res) => controller.getFriendRequests(req, res));
-router.post("/acceptfriendrequests/:id", (req, res) => controller.acceptFriendRequest(req, res));
-
-=======
 // friends and friend requests
 router.post("/friendrequests", (req, res) =>
   controller.createFriendRequest(req, res)
@@ -42,6 +35,5 @@ router.get("/friendrequests", (req, res) =>
 router.post("/acceptfriendrequests/:id", (req, res) =>
   controller.acceptFriendRequest(req, res)
 );
->>>>>>> aaeca4e4f71f3f316dabf234fc2f8d4fd2bb21f5
 
 module.exports = router;

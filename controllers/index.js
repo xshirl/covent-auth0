@@ -169,14 +169,16 @@ const userProfile = async (req, res) => {
     const legit = await userOfRequest(req);
 
     if (legit) {
-      const user = await User.findById(legit.id);
+      const user = await User.findById(legit.id).populate('friends');
       // only returning a select number of data fields
       // returns more than verify user, which is only required to log in using localStorage's JWT
       const profile = {
         id: user._id,
         username: user.username,
         name: user.name,
-        friends: user.friends,
+        friends: user.friends.map(fren => {
+          return { id: fren._id, username: fren.username }
+        }),
       };
 
       // return event_name and _id of events that the user is attending or created
@@ -621,12 +623,24 @@ const getFriendRequests = async (req, res) => {
       // by finding all the requests with your id
       const friendRequests = await FriendRequest.find({
         $or: [{ creator: id }, { recipient: id }],
-      });
+      }).populate('creator').populate('recipient');
 
       // sort them into sent and received then return the response
-      const sent = friendRequests.filter((fr) => fr.creator.toString() === id);
-      const received = friendRequests.filter(
-        (fr) => fr.recipient.toString() === id
+      // and retain only the name and id of creator and recipient 
+      const foundRequests = friendRequests.map(fr => {
+        return {
+          confirmed: fr.confirmed,
+          creator: { id: fr.creator._id, username: fr.creator.username },
+          recipient: { id: fr.recipient._id, username: fr.recipient.username }
+        }
+      });
+
+      const sent = foundRequests.filter(
+        fr => fr.creator.id.toString() === id
+      );
+
+      const received = foundRequests.filter(
+        fr => fr.recipient.id.toString() === id
       );
 
       return res.status(200).json({ sent, received });
