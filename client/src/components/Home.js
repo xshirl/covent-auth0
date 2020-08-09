@@ -24,9 +24,16 @@ export default class Home extends Component {
             any occasion. Do video calls and message friends.
           </p>
           <div className="icons">
-            <i class="fas fa-calendar"></i>
-            <i class="fas fa-video"></i>
-            <i class="fas fa-comment"></i>
+            <div className="icon">
+              <i class="fas fa-calendar"></i>
+            </div>
+            <div className="icon">
+              {" "}
+              <i class="fas fa-video"></i>
+            </div>
+            <div className="icon">
+              <i class="fas fa-comment"></i>
+            </div>
           </div>
         </div>
         <footer>

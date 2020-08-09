@@ -335,7 +335,21 @@ footer p {
   padding: 20px;
   justify-content: center;
 }
+.icon {
+  border-radius: 50%;
+  border: 1px solid #7fbec6;
+  margin: 2rem;
+}
+.icon:hover {
+  background-color: #7fbec6;
+  transition: 0.5s;
+}
+
+.icon:hover i {
+  color: white;
+}
 .icons i {
-  margin: 3rem;
+  color: #7fbec6;
+  margin: 2rem;
   font-size: 4rem;
 }
