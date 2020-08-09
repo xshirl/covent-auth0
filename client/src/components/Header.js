@@ -31,8 +31,9 @@ export default class Header extends Component {
   };
 
   render() {
+    console.log(this.state.userId);
     let header;
-    if (!this.state.userId) {
+    if (!localStorage.getItem("token")) {
       header = (
         <div className="nav-right-menu">
           <ul>

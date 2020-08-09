@@ -355,19 +355,17 @@ footer p {
 }
 
 .eventPage {
+  text-align: center;
   display: flex;
   justify-content: center;
   flex-direction: column;
+  color: teal;
 }
 
 .eventPage p {
   font-size: 1rem;
 }
-.eventsPage {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
+
 .event {
   width: 200px;
   height: 100px;
@@ -382,4 +380,16 @@ footer p {
   color: black;
   display: flex;
   justify-content: center;
+}
+
+.friends-page {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.friends-page h1 {
+  color: #7fbec6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
