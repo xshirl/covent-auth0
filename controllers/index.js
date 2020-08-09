@@ -199,9 +199,9 @@ const userProfile = async (req, res) => {
         }
       });
 
-      profile = { ...profile, createdEvents, attendingEvents };
+      returnProfile = { ...profile, createdEvents, attendingEvents };
 
-      return res.status(200).json({ user: profile });
+      return res.status(200).json({ user: returnProfile });
     }
     return res.status(401).send("Not Authorized");
   } catch (error) {
