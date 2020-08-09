@@ -83,3 +83,32 @@ export const attendEvent = async (eventId) => {
     throw error;
   }
 };
+
+// friend requests 
+
+export const sendFriendRequest = async (bodyData) => {
+  try {
+    const response = await api.post(`/friendrequests`, bodyData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getFriendRequests = async () => {
+  try {
+    const response = await api.get(`/friendrequests`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const acceptFriendRequests = async (id) => {
+  try {
+    const response = await api.get(`/acceptfriendrequests/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
