@@ -49,9 +49,11 @@ export default class Signup extends Component {
   };
 
   responseFacebook = async (response) => {
+    console.log(response);
     this.setState({
       isLoggedIn: true,
       username: response.name,
+      email: response.email,
       picture: response.picture.data.url,
     });
     this.submitFacebook(response);
@@ -60,9 +62,9 @@ export default class Signup extends Component {
   submitFacebook = async (data) => {
     try {
       const response = await signup({
-        username: data.name,
-        password: data.accessToken,
+        username: data.email,
         name: data.name,
+        password: data.accessToken,
       });
       console.log(response);
     } catch (error) {
