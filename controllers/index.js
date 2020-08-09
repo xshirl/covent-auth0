@@ -263,11 +263,26 @@ const getEvent = async (req, res) => {
 
 const attendEvent = async (req, res) => {
   try {
-    const { id } = req.params;
     const event = await Event.findById(id);
     const legit = await userOfRequest(req);
     if (legit) {
-      event.attendees.push(legit.id);
+      await Event.findByIdAndUpdate(
+        event.id,
+        {
+          $push: { attendees: legit.id },
+        },
+        { new: true },
+        (error, event) => {
+          if (error) {
+            throw error;
+          }
+          if (!event) {
+            throw "Can't find event";
+          }
+          // would return true in other cases but we don't want to return yet
+        }
+      );
+
       return res.status(200).json(event);
     }
     return res.status(401).send("Not Authorized");

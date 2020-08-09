@@ -16,7 +16,7 @@ export default class Login extends Component {
       picture: "",
       inputUsername: "",
       inputPassword: "",
-      signedInUsername: ""
+      signInName: "",
     };
   }
 
@@ -39,10 +39,33 @@ export default class Login extends Component {
         isLoggedIn: true,
         inputUsername: "",
         inputPassword: "",
-        signedInUsername: response.user.username 
+        signInName: response.user.username,
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  responseFacebook = async (response) => {
+    console.log(response);
+    this.setState({
+      isLoggedIn: true,
+      username: response.name,
+      email: response.email,
+      picture: response.picture.data.url,
+    });
+    this.submitFacebook(response);
+  };
+
+  submitFacebook = async (data) => {
+    try {
+      const response = await signin({
+        username: data.email,
+        password: data.accessToken,
+      });
+      console.log(response);
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -57,27 +80,6 @@ export default class Login extends Component {
     });
     localStorage.removeItem("token");
     this.props.history.push("/");
-  };
-
-  responseFacebook = (response) => {
-    console.log(response);
-    signin({
-      username: response.name,
-      password_digest: response.accessToken,
-    });
-
-    this.setState({
-      isLoggedIn: true,
-      username: response.name,
-      email: response.email,
-      picture: response.picture.data.url,
-    });
-
-    try {
-
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   render() {
