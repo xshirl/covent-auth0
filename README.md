@@ -1,5 +1,7 @@
 # CO-VENT: Addressing connectivity during Co-vid 19 pandemic
+
 ![](images/homePage.png)
+
 ## About
 
 During this time of quarantine, without a means of physically being able to see and talk to their friends and family, many people are resorting to more creative ways of connecting to their peers to prevent feelings of loneliness and isolation. People host game nights, online workshops, virtual work out sessions, paint nights, Bible study fellowships, and etc through Zoom and Google Meet video calls. Scheduling these virtual events is often messy as it relies on multiple social platforms such as Groupme, Facebook, Slack, and email just to simply communicate a video call link and event details to arrange the event.
@@ -7,6 +9,8 @@ During this time of quarantine, without a means of physically being able to see 
 What if there was a platform that streamlines event planning and helps organize the event for you? What if it could help you make friends with common interests and bond during virtual events?
 
 Co-vent is a social networking platform that brings people with common interests together and organizes virtual events for people and their friends to attend. Strangers, acquaintances, and friends can join video calls that have a common theme and have fun or learn during these video call sessions. People on Co-vent can create and schedule events on the platform and message their friends as well. It is a platform to connect others with common interest and boost their feelings of community and solidarity during a time of pain and anxiety.
+
+Deployed link: https://co-vent.surge.sh
 
 ## How it works
 

@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import Header from './Header'
-import { getEvents } from '../api/apiCalls'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Header from "./Header";
+import { getEvents } from "../api/apiCalls";
 
 export default class Events extends Component {
   constructor() {
-    super()
+    super();
 
     this.state = {
-      events: []
-    }
+      events: [],
+    };
   }
 
   async componentDidMount() {
@@ -17,8 +17,8 @@ export default class Events extends Component {
       const response = await getEvents(true);
       console.log(response);
       this.setState({
-        events: response 
-      })
+        events: response,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -38,14 +38,12 @@ export default class Events extends Component {
               <p>Date: {event.date}</p>
               <p>Time: {event.startTime}</p>
               <Link to={`/events/${event._id}`}>
-                <button>
-                  Read More/Attend
-                </button>
+                <button>Read More/Attend</button>
               </Link>
             </div>
-          )
+          );
         })}
       </div>
-    )
+    );
   }
 }
