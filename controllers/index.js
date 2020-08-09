@@ -56,7 +56,7 @@ const finalizeFriendRequest = async (friendRequest) => {
     // change creator to have friendID in array
     await User.findByIdAndUpdate(
       friendRequest.creator,
-      { $push: { friends: friendRequest.recipient } },
+      { $addToSet: { friends: friendRequest.recipient } },
       { new: true },
       (error, event) => {
         if (error) {
@@ -72,7 +72,7 @@ const finalizeFriendRequest = async (friendRequest) => {
     // change recipient to have friendID in array
     await User.findByIdAndUpdate(
       friendRequest.recipient,
-      { $push: { friends: friendRequest.creator } },
+      { $addToSet: { friends: friendRequest.creator } },
       { new: true },
       (error, event) => {
         if (error) {
@@ -269,7 +269,7 @@ const attendEvent = async (req, res) => {
       await Event.findByIdAndUpdate(
         event.id,
         {
-          $push: { attendees: legit.id },
+          $addToSet: { attendees: legit.id },
         },
         { new: true },
         (error, event) => {

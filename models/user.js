@@ -12,10 +12,12 @@ const User = new Schema(
     name: {
       type: String,
       required: true,
+      unique: false 
     },
     password_digest: {
       type: String,
       required: true,
+      unique: false 
     },
 
     friends: [
