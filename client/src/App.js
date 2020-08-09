@@ -4,11 +4,12 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
-import Search from "./components/Search"
-import MessageRead from "./components/MessageRead"
-import MessageWrite from "./components/MessageWrite"
+import Search from "./components/Search";
+import MessageRead from "./components/MessageRead";
+import MessageWrite from "./components/MessageWrite";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { verifyuser } from "./api/apiUsers"
+import { verifyuser } from "./api/apiUsers";
+import EventForm from "./components/EventForm";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -26,7 +27,7 @@ export default class App extends Component {
       const response = await verifyuser();
       console.log(response);
       this.setState({
-        currentUser: response.user 
+        currentUser: response.user,
       });
     } catch (error) {
       console.log(error);
@@ -34,11 +35,11 @@ export default class App extends Component {
   }
 
   signout = async () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     this.setState({
-      currentUser: null
+      currentUser: null,
     });
-  }
+  };
 
   render() {
     let Site;
@@ -69,6 +70,7 @@ export default class App extends Component {
         <Route exact path="/search" component={Search} />
         <Route exact path="/message/read" component={MessageRead} />
         <Route exact path="/message/write" component={MessageWrite} />
+        <Route exact path="/createEvent" component={EventForm} />
       </Router>
     );
   }

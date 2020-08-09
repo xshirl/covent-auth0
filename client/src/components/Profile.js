@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Login from "./Login";
 import { Link } from "react-router-dom";
-
+import EventForm from "./EventForm";
 export default class Profile extends Component {
   render() {
     let picture;
@@ -29,7 +29,7 @@ export default class Profile extends Component {
                 </li>
                 <li>
                   <Link className="nav-text" to="/">
-                    LOGOUT
+                    <span onClick={this.props.logout}>LOGOUT</span>
                   </Link>
                 </li>
               </ul>
@@ -39,7 +39,7 @@ export default class Profile extends Component {
 
         <div className="profilePage">
           <div className="sidebar">
-            <nav class="menu">
+            <nav className="menu">
               <li className="menu-item">
                 <Link to="/profile/events">Events</Link>
               </li>
@@ -59,6 +59,15 @@ export default class Profile extends Component {
 
             <h2 className="welcome"> Welcome {this.props.name} </h2>
             <hr />
+            <div className="create">
+              <div className="createBox">
+                <Link to="/createEvent">Create Event</Link>
+              </div>
+
+              <div className="createBox">
+                <Link to="/message/write">Create Message</Link>
+              </div>
+            </div>
           </section>
         </div>
       </div>

@@ -141,11 +141,11 @@ body {
   justify-content: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid teal;
 }
 
 .menu-item a {
-  color: teal;
+  color: #7fbec6;
   font-size: 2rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -192,4 +192,111 @@ button.search-button {
 .events-list:nth-child(odd) {
   background-color: #eee;
   border-color: #eee;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  color: darkgray;
+}
+
+.inbox h2 {
+  text-transform: uppercase;
+  color: #7fbec6;
+  font-size: 2rem;
+  text-align: center;
+  letter-spacing: 2px;
+  padding: 20px;
+}
+
+.createBox {
+  width: 200px;
+  height: 100px;
+  background-color: #7fbec6;
+  color: darkgray;
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+}
+
+.createBox a {
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.createBox a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.create {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.btn-teal {
+  background-color: #7fbec6 !important;
+  border-color: #7fbec6 !important;
+}
+
+h1.event-form {
+  color: #7fbec6;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 20px;
+}
+
+.signUpForm {
+  background-color: #7fbec6;
+  border: 1px solid teal;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  margin: 30px;
+}
+
+.signUpForm h1 {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.signUpForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signUpForm button {
+  margin: 10px;
+}
+
+.messageForm {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  background-color: #7fbec6;
+  margin: 50px;
+  flex-direction: column;
+}
+
+.messageForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+.messageForm label {
+  font-size: 1.5rem;
 }

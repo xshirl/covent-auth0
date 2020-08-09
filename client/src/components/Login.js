@@ -45,8 +45,16 @@ export default class Login extends Component {
   };
 
   logout = () => {
-    this.setState({ isAuthenticated: false, token: "", user: null });
+    this.setState({
+      isLoggedIn: false,
+      username: "",
+      email: "",
+      picture: "",
+      inputUsername: "",
+      inputPassword: "",
+    });
     localStorage.removeItem("token");
+    this.props.history.push("/");
   };
 
   responseFacebook = (response) => {
@@ -67,54 +75,51 @@ export default class Login extends Component {
   render() {
     let fbContent;
     let { username, email, picture, inputUsername } = this.state;
+    const signinName = inputUsername;
+    console.log(signinName);
     if (this.state.isLoggedIn) {
       if (!inputUsername) {
         fbContent = <Profile name={username} picture={picture} />;
       } else {
-        fbContent = <Profile name={inputUsername} />;
+        fbContent = <Profile name={signinName} />;
       }
     } else {
       fbContent = (
         <div className="login-page">
           <Header></Header>
-
-          <section className="loginLinks">
-            <FacebookLogin
-              appId="1560093777493830"
-              autoLoad={false}
-              fields="name,email,picture"
-              callback={this.responseFacebook}
-            />
-          </section>
-
-          <section
-            style={{
-              textAlign: "center",
-              border: "1px solid black",
-              margin: "10px 30px",
-              padding: "10px",
-            }}
-          >
-            <form onSubmit={this.submitSignin}>
-              <label htmlFor="username">Username</label>
-              <input
-                name="username"
-                type="text"
-                value={this.state.inputUsername}
-                onChange={(e) => this.handleChange(e, "inputUsername")}
+          <div className="container">
+            <section className="loginLinks">
+              <FacebookLogin
+                appId="1560093777493830"
+                autoLoad={false}
+                fields="name,email,picture"
+                callback={this.responseFacebook}
               />
+            </section>
 
-              <label htmlFor="password">Password</label>
-              <input
-                name="password"
-                type="password"
-                value={this.state.inputPassword}
-                onChange={(e) => this.handleChange(e, "inputPassword")}
-              />
+            <section className="signUpForm">
+              <h1> Log In </h1>
+              <form onSubmit={this.submitSignin}>
+                <label htmlFor="username">Username</label>
+                <input
+                  name="username"
+                  type="text"
+                  value={this.state.inputUsername}
+                  onChange={(e) => this.handleChange(e, "inputUsername")}
+                />
 
-              <button>Submit</button>
-            </form>
-          </section>
+                <label htmlFor="password">Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  value={this.state.inputPassword}
+                  onChange={(e) => this.handleChange(e, "inputPassword")}
+                />
+
+                <button>Submit</button>
+              </form>
+            </section>
+          </div>
         </div>
       );
     }
