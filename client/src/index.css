@@ -393,3 +393,11 @@ footer p {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
+/* Boxing in items */
+
+.box-bordered {
+  border: 1px solid teal;
+  margin: 10px 30px;
+  padding: 10px;
+}

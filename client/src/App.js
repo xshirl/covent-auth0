@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { verifyuser } from "./api/apiUsers";
 import EventForm from "./components/EventForm";
 import Event from "./components/Event";
+import Events from "./components/Events";
 import Friends from "./components/Friends"
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -74,6 +75,7 @@ export default class App extends Component {
         <Route exact path="/message/write" component={MessageWrite} />
         <Route exact path="/createEvent" component={EventForm} />
         <Route exact path="/events/:id" component={Event} />
+        <Route exact path="/events" component={Events} />
         <Route exact path="/profile/friends" component={Friends} />
       </Router>
     );
