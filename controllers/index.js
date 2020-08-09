@@ -56,7 +56,7 @@ const finalizeFriendRequest = async (friendRequest) => {
     // change creator to have friendID in array
     await User.findByIdAndUpdate(
       friendRequest.creator,
-      { $push: { friends: friendRequest.recipient } },
+      { $addToSet: { friends: friendRequest.recipient } },
       { new: true },
       (error, event) => {
         if (error) {
@@ -72,7 +72,7 @@ const finalizeFriendRequest = async (friendRequest) => {
     // change recipient to have friendID in array
     await User.findByIdAndUpdate(
       friendRequest.recipient,
-      { $push: { friends: friendRequest.creator } },
+      { $addToSet: { friends: friendRequest.creator } },
       { new: true },
       (error, event) => {
         if (error) {
@@ -179,24 +179,24 @@ const userProfile = async (req, res) => {
         friends: user.friends,
       };
 
-      // return event_name and _id of events that the user is attending or created 
+      // return event_name and _id of events that the user is attending or created
       let createdEvents = await Event.find({ creator: legit.id });
       let attendingEvents = await Event.find({
-        attendees: { $in: [legit.id] }
+        attendees: { $in: [legit.id] },
       });
 
-      createdEvents = createdEvents.map(event => {
+      createdEvents = createdEvents.map((event) => {
         return {
           event_name: event.event_name,
-          id: event._id
-        }
+          id: event._id,
+        };
       });
 
-      attendingEvents = attendingEvents.map(event => {
+      attendingEvents = attendingEvents.map((event) => {
         return {
           event_name: event.event_name,
-          id: event._id
-        }
+          id: event._id,
+        };
       });
 
       returnProfile = { ...profile, createdEvents, attendingEvents };
@@ -263,29 +263,30 @@ const getEvent = async (req, res) => {
 
 const attendEvent = async (req, res) => {
   try {
+    const { id } = req.params;
     const event = await Event.findById(id);
     const legit = await userOfRequest(req);
     if (legit) {
       await Event.findByIdAndUpdate(
         event.id,
         {
-          $push: { attendees: legit.id },
+          $addToSet: { attendees: legit.id },
         },
         { new: true },
         (error, event) => {
           if (error) {
-            throw error;
+            return res.status(404).json(error);
           }
           if (!event) {
-            throw "Can't find event";
+            return res.status(404).send("No event found");
           }
           // would return true in other cases but we don't want to return yet
+          return res.status(200).json(event);
         }
       );
-
-      return res.status(200).json(event);
+    } else {
+      return res.status(401).send("Not Authorized");
     }
-    return res.status(401).send("Not Authorized");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

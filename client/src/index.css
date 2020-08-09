@@ -353,3 +353,33 @@ footer p {
   margin: 2rem;
   font-size: 4rem;
 }
+
+.eventPage {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.eventPage p {
+  font-size: 1rem;
+}
+.eventsPage {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.event {
+  width: 200px;
+  height: 100px;
+  background-color: #7fbec6;
+  color: teal;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.event a {
+  color: black;
+  display: flex;
+  justify-content: center;
+}

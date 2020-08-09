@@ -55,7 +55,7 @@ export const searchEvents = async (term) => {
   }
 };
 
-// MESSAGES 
+// MESSAGES
 
 export const getMessages = async () => {
   try {
@@ -64,7 +64,7 @@ export const getMessages = async () => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const sendMessage = async (bodyData) => {
   try {
@@ -73,4 +73,13 @@ export const sendMessage = async (bodyData) => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const attendEvent = async (eventId) => {
+  try {
+    const response = await api.put(`/attendEvent/${eventId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

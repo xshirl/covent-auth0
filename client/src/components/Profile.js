@@ -2,8 +2,31 @@ import React, { Component } from "react";
 import Login from "./Login";
 import { Link } from "react-router-dom";
 import EventForm from "./EventForm";
+import { userProfile } from "../api/apiUsers";
+
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      created: [],
+      attending: [],
+    };
+  }
+
+  async componentDidMount() {
+    try {
+      const response = await userProfile();
+      this.setState({
+        created: response.user.createdEvents,
+        attending: response.user.attendingEvents,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   render() {
+    const { created, attending } = this.state;
     let picture;
     if (!this.props.picture) {
       picture =
@@ -66,6 +89,30 @@ export default class Profile extends Component {
 
               <div className="createBox">
                 <Link to="/message/write">Create Message</Link>
+              </div>
+            </div>
+
+            <div className="eventsList">
+              <div className="created">
+                <h2>Created Events</h2>
+                {created.map((event) => {
+                  return (
+                    <div className="event">
+                      <Link to={`/events/${event.id}`}>{event.event_name}</Link>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="attending">
+                <h2>Attending Events </h2>
+                {attending.map((event) => {
+                  return (
+                    <div className="event">
+                      <Link to={`/events/${event.id}`}>{event.name}</Link>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
