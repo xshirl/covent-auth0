@@ -32,3 +32,12 @@ export const verifyuser = async () => {
     throw error;
   }
 };
+
+export const userProfile = async () => {
+  try {
+    const response = await api.get(`/userprofile`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

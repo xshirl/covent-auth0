@@ -5,6 +5,7 @@ import { GoogleLogin } from "react-google-login";
 import config from "../config.json";
 import { signin } from "../api/apiUsers";
 import Profile from "./Profile";
+import { Redirect } from "react-router-dom";
 
 export default class Login extends Component {
   constructor(props) {
@@ -88,11 +89,7 @@ export default class Login extends Component {
     const signinName = signedInUsername;
     console.log(signinName);
     if (this.state.isLoggedIn) {
-      if (!signinName) {
-        fbContent = <Profile name={username} picture={picture} />;
-      } else {
-        fbContent = <Profile name={signinName} />;
-      }
+      fbContent = <Redirect to="/profile" />;
     } else {
       fbContent = (
         <div className="login-page">
