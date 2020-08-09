@@ -15,8 +15,23 @@ export default class Home extends Component {
         </section>
 
         <Search />
-        <EventForm />
-        {/* <PublicEventList /> */}
+        <div className="about">
+          <h1>About</h1>
+          <p>
+            {" "}
+            Build community and connect with others with common interests during
+            the Co-vid-19 pandemic through virtual events. Schedule events for
+            any occasion. Do video calls and message friends.
+          </p>
+          <div className="icons">
+            <i class="fas fa-calendar"></i>
+            <i class="fas fa-video"></i>
+            <i class="fas fa-comment"></i>
+          </div>
+        </div>
+        <footer>
+          <p>&copy; 2020 Andrew Hsu and Shirley Xu</p>
+        </footer>
       </div>
     );
   }

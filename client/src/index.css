@@ -300,3 +300,42 @@ h1.event-form {
 .messageForm label {
   font-size: 1.5rem;
 }
+
+.about {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.about h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #7fbec6;
+  text-align: center;
+}
+
+.about p {
+  text-align: center;
+  font-size: 2rem;
+}
+
+footer {
+  padding: 10px;
+  background-color: #7fbec6;
+  opacity: 0.6;
+}
+
+footer p {
+  text-align: center;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  justify-content: center;
+}
+.icons i {
+  margin: 3rem;
+  font-size: 4rem;
+}
