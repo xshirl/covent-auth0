@@ -629,6 +629,7 @@ const getFriendRequests = async (req, res) => {
       // and retain only the name and id of creator and recipient 
       const foundRequests = friendRequests.map(fr => {
         return {
+          id: fr._id,
           confirmed: fr.confirmed,
           creator: { id: fr.creator._id, username: fr.creator.username },
           recipient: { id: fr.recipient._id, username: fr.recipient.username }
