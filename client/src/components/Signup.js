@@ -64,7 +64,7 @@ export default class Signup extends Component {
       const response = await signup({
         username: data.email,
         name: data.name,
-        password: data.accessToken,
+        password: data.id,
       });
       console.log(response);
     } catch (error) {
