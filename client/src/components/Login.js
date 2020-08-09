@@ -61,7 +61,7 @@ export default class Login extends Component {
     try {
       const response = await signin({
         username: data.email,
-        password: data.accessToken,
+        password: data.id,
       });
       console.log(response);
     } catch (error) {
