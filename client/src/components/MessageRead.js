@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { getMessages } from "../api/apiCalls";
-import HeaderProfile from "./HeaderProfile";
+import Header from "./Header";
 import { Link } from "react-router-dom";
 export default class MessageRead extends Component {
   constructor() {
@@ -27,7 +27,7 @@ export default class MessageRead extends Component {
   render() {
     return (
       <div>
-        <HeaderProfile />
+        <Header />
         <div className="inbox">
           <h2>Inbox</h2>
           {this.state.received.map((message, ind) => {
