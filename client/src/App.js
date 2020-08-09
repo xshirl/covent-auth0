@@ -10,7 +10,7 @@ import MessageWrite from "./components/MessageWrite";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { verifyuser } from "./api/apiUsers";
 import EventForm from "./components/EventForm";
-import PublicEventList from "./components/PublicEventList";
+
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -72,7 +72,7 @@ export default class App extends Component {
         <Route exact path="/message/read" component={MessageRead} />
         <Route exact path="/message/write" component={MessageWrite} />
         <Route exact path="/createEvent" component={EventForm} />
-        <Route exact path="/events" component={PublicEventList} />
+
       </Router>
     );
   }

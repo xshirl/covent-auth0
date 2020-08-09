@@ -16,6 +16,7 @@ export default class Login extends Component {
       picture: "",
       inputUsername: "",
       inputPassword: "",
+      signedInUsername: ""
     };
   }
 
@@ -38,6 +39,7 @@ export default class Login extends Component {
         isLoggedIn: true,
         inputUsername: "",
         inputPassword: "",
+        signedInUsername: response.user.username 
       });
     } catch (error) {
       console.log(error);
@@ -70,15 +72,21 @@ export default class Login extends Component {
       email: response.email,
       picture: response.picture.data.url,
     });
+
+    try {
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
     let fbContent;
-    let { username, email, picture, inputUsername } = this.state;
-    const signinName = inputUsername;
+    let { username, email, picture, signedInUsername } = this.state;
+    const signinName = signedInUsername;
     console.log(signinName);
     if (this.state.isLoggedIn) {
-      if (!inputUsername) {
+      if (!signinName) {
         fbContent = <Profile name={username} picture={picture} />;
       } else {
         fbContent = <Profile name={signinName} />;
