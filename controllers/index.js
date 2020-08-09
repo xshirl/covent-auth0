@@ -6,7 +6,7 @@ const Event = require("../models/event");
 const Message = require("../models/message");
 const FriendRequest = require("../models/friendRequest");
 const Mongoose = require("mongoose");
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require("mongodb").ObjectID;
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -34,36 +34,36 @@ const userOfRequest = (req) => {
   }
 };
 
-// accept and finalize friend request 
+// accept and finalize friend request
 const finalizeFriendRequest = async (friendRequest) => {
   try {
-    // change friend request to confirmed 
+    // change friend request to confirmed
     await FriendRequest.findByIdAndUpdate(
       friendRequest._id,
       { confirmed: true },
       { new: true },
       (error, event) => {
         if (error) {
-          throw (error);
+          throw error;
         }
         if (!event) {
-          throw ('No friend request found');
+          throw "No friend request found";
         }
         // would return true in other cases but we don't want to return yet
       }
     );
 
-    // change creator to have friendID in array 
+    // change creator to have friendID in array
     await User.findByIdAndUpdate(
       friendRequest.creator,
-      { $push: {friends: friendRequest.recipient} },
+      { $push: { friends: friendRequest.recipient } },
       { new: true },
       (error, event) => {
         if (error) {
-          throw (error);
+          throw error;
         }
         if (!event) {
-          throw ('No friend request creator found');
+          throw "No friend request creator found";
         }
         // would return true in other cases but we don't want to return yet
       }
@@ -72,25 +72,25 @@ const finalizeFriendRequest = async (friendRequest) => {
     // change recipient to have friendID in array
     await User.findByIdAndUpdate(
       friendRequest.recipient,
-      { $push: {friends: friendRequest.creator} },
+      { $push: { friends: friendRequest.creator } },
       { new: true },
       (error, event) => {
         if (error) {
-          throw (error);
+          throw error;
         }
         if (!event) {
-          throw ('No friend request found');
+          throw "No friend request found";
         }
         // would return true in other cases but we don't want to return yet
       }
     );
 
-    return true 
+    return true;
   } catch (error) {
     console.log(error);
-    return false 
+    return false;
   }
-}
+};
 
 // USERS - Auth
 const signUp = async (req, res) => {
@@ -101,14 +101,14 @@ const signUp = async (req, res) => {
     const user = await new User({
       username,
       name,
-      password_digest
+      password_digest,
     });
     await user.save();
 
     const payload = {
       id: user._id,
       username: user.username,
-      name: user.name
+      name: user.name,
     };
 
     const token = jwt.sign(payload, TOKEN_KEY);
@@ -127,7 +127,7 @@ const signIn = async (req, res) => {
       const payload = {
         id: user._id,
         username: user.username,
-        name: user.name
+        name: user.name,
       };
       const token = jwt.sign(payload, TOKEN_KEY);
       return res.status(201).json({ user: payload, token });
@@ -151,7 +151,7 @@ const verifyUser = async (req, res) => {
       const profile = {
         id: user._id,
         username: user.username,
-        name: user.name
+        name: user.name,
       };
 
       return res.status(200).json({ user: profile });
@@ -191,10 +191,10 @@ const userProfile = async (req, res) => {
 // get all events, option to query for public
 const getEvents = async (req, res) => {
   try {
-    const isPublic = req.query.public; 
+    const isPublic = req.query.public;
 
-    if (typeof isPublic === 'string') {
-      console.log('Checking public events: ')
+    if (typeof isPublic === "string") {
+      console.log("Checking public events: ");
       const publicEvents = await Event.find({
         isPublic: true,
       });
@@ -234,6 +234,21 @@ const getEvent = async (req, res) => {
     const event = await Event.findById(id);
 
     return res.status(200).json(event);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const attendEvent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findById(id);
+    const legit = await userOfRequest(req);
+    if (legit) {
+      event.attendees.push(legit.id);
+      return res.status(200).json(event);
+    }
+    return res.status(401).send("Not Authorized");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -328,24 +343,24 @@ const deleteEvent = async (req, res) => {
 };
 
 // search events with search term (return public events)
-// Using $or with multiple fields 
+// Using $or with multiple fields
 // https://stackoverflow.com/questions/7382207/mongooses-find-method-with-or-condition-does-not-work-properly
 const searchEvents = async (req, res) => {
   try {
-    const {term} = req.params;
+    const { term } = req.params;
 
     const events = await Event.find({
       $or: [
-        { "event_name": { $regex: term, $options: "i" } },
-        { "description": { $regex: term, $options: "i" } }
-      ]
+        { event_name: { $regex: term, $options: "i" } },
+        { description: { $regex: term, $options: "i" } },
+      ],
     });
 
     return res.status(200).json(events);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-}
+};
 
 // MESSAGES
 // post with subject, content and recipients
@@ -444,50 +459,53 @@ const getMessages = async (req, res) => {
       // using $in or $all works when it's one value you are looking for
       const receivedMessages = await Message.find({
         recipients: { $in: [legit.id] },
-      }).populate('creator').populate('recipients');
-      
-      const received = receivedMessages.map(msg => {
+      })
+        .populate("creator")
+        .populate("recipients");
+
+      const received = receivedMessages.map((msg) => {
         return {
           subject: msg.subject,
           content: msg.content,
           creator: msg.creator.username,
-          recipients: msg.recipients.map(recip => recip.username),
-          createdAt: msg.createdAt
-        }
+          recipients: msg.recipients.map((recip) => recip.username),
+          createdAt: msg.createdAt,
+        };
       });
 
       const sentMessages = await Message.find({
-        creator: legit.id
-      }).populate('creator').populate('recipients');
+        creator: legit.id,
+      })
+        .populate("creator")
+        .populate("recipients");
 
-      const sent = sentMessages.map(msg => {
+      const sent = sentMessages.map((msg) => {
         return {
           subject: msg.subject,
           content: msg.content,
           creator: msg.creator.username,
-          recipients: msg.recipients.map(recip => recip.username),
-          createdAt: msg.createdAt
-        }
+          recipients: msg.recipients.map((recip) => recip.username),
+          createdAt: msg.createdAt,
+        };
       });
 
       return res.status(200).json({ received, sent });
-      
     }
     return res.status(401).send("Not Authorized");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-}
+};
 
 // Friends - part of USERS
 
-// create or try to create friend request 
+// create or try to create friend request
 const createFriendRequest = async (req, res) => {
   try {
-    // 1. check if logged in user 
-    // 2. check if recipient_id is legitimate 
-    // 3. check if friend request either way already exists 
-    // 4. create friend request 
+    // 1. check if logged in user
+    // 2. check if recipient_id is legitimate
+    // 3. check if friend request either way already exists
+    // 4. create friend request
 
     // https://stackoverflow.com/questions/30051236/argument-passed-in-must-be-a-string-of-24-hex-characters-i-think-it-is
 
@@ -498,8 +516,8 @@ const createFriendRequest = async (req, res) => {
       const { id } = legit;
 
       const { reqId, reqUsername } = req.body;
-      // if the id exists use that 
-      // else use requestByUsername 
+      // if the id exists use that
+      // else use requestByUsername
       let recipient = null;
       if (reqId) {
         recipient = await User.findById(reqId);
@@ -514,32 +532,31 @@ const createFriendRequest = async (req, res) => {
         return res.status(404).send("Receiving User doesn't exist");
       }
 
-      // check if friend request already exists 
+      // check if friend request already exists
       const existingRequests = await FriendRequest.find({
         $or: [
           {
             creator: id,
-            recipient: recipId
+            recipient: recipId,
           },
           {
             creator: recipId,
-            recipient: id
-          }
-        ]
+            recipient: id,
+          },
+        ],
       });
-      console.log(existingRequests)
+      console.log(existingRequests);
       if (existingRequests.length > 0) {
         return res.status(403).send("Friend Request already exists");
       } else {
-
         console.log(id, recipId);
 
-        // actually create friend request 
+        // actually create friend request
         let friendRequest = null;
         if (id && recipId) {
           friendRequest = new FriendRequest({
             creator: id,
-            recipient: recipId
+            recipient: recipId,
           });
           await friendRequest.save();
         }
@@ -552,9 +569,9 @@ const createFriendRequest = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-}
+};
 
-// get friend requests (either from you or to you) 
+// get friend requests (either from you or to you)
 const getFriendRequests = async (req, res) => {
   try {
     const legit = await userOfRequest(req);
@@ -562,18 +579,17 @@ const getFriendRequests = async (req, res) => {
     if (legit) {
       const { id } = legit;
 
-      // return all friend requests from you and to you 
-      // by finding all the requests with your id 
+      // return all friend requests from you and to you
+      // by finding all the requests with your id
       const friendRequests = await FriendRequest.find({
-        $or: [
-          { creator: id },
-          { recipient: id }
-        ]
+        $or: [{ creator: id }, { recipient: id }],
       });
 
-      // sort them into sent and received then return the response 
-      const sent = friendRequests.filter(fr => fr.creator.toString() === id);
-      const received = friendRequests.filter(fr => fr.recipient.toString() === id);
+      // sort them into sent and received then return the response
+      const sent = friendRequests.filter((fr) => fr.creator.toString() === id);
+      const received = friendRequests.filter(
+        (fr) => fr.recipient.toString() === id
+      );
 
       return res.status(200).json({ sent, received });
     } else {
@@ -581,10 +597,10 @@ const getFriendRequests = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
-  } 
-}
+  }
+};
 
-// accept friend request 
+// accept friend request
 const acceptFriendRequest = async (req, res) => {
   try {
     const legit = await userOfRequest(req);
@@ -592,9 +608,9 @@ const acceptFriendRequest = async (req, res) => {
     if (legit) {
       const { id } = legit;
 
-      console.log(id)
+      console.log(id);
 
-      // check if friend request is actually to you 
+      // check if friend request is actually to you
       const friendRequest = await FriendRequest.findById(req.params.id);
 
       if (id !== friendRequest.recipient.toString()) {
@@ -602,7 +618,6 @@ const acceptFriendRequest = async (req, res) => {
       } else if (friendRequest.confirmed) {
         return res.status(401).send("No unconfirmed friend request");
       } else {
-
         await finalizeFriendRequest(friendRequest);
 
         return res.status(200).send(friendRequest);
@@ -612,9 +627,8 @@ const acceptFriendRequest = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({ error: error.message });
-  } 
-}
-
+  }
+};
 
 // export functions
 
@@ -627,11 +641,12 @@ module.exports = {
   getMessages,
   getEvents,
   getEvent,
+  attendEvent,
   createEvent,
   editEvent,
   deleteEvent,
   searchEvents,
   createFriendRequest,
   getFriendRequests,
-  acceptFriendRequest
+  acceptFriendRequest,
 };
