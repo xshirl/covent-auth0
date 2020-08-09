@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { userProfile } from '../api/apiUsers'
-import {  } from '../api/apiCalls'
 import { getFriendRequests, sendFriendRequest, acceptFriendRequests } from '../api/apiCalls';
 
 export default class Friends extends Component {
