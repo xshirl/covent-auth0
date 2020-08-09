@@ -12,8 +12,6 @@ Co-vent is a social networking platform that brings people with common interests
 
 Deployed link: https://co-vent.surge.sh
 
-## How it works
-
 ## Tech Stack
 
 - React
@@ -37,3 +35,48 @@ On your profile page, you can see events that you have created and events you ar
 You can view your friends on your friends page and make a friend request to someone whose username and id you already know.
 
 On your messages page, you can see messages you have received and written.
+
+
+## Backend Design
+
+### Database Schemas 
+
+  * User
+    * username: String
+    * password_digest: String
+    * name: String
+    * friends: Array( User._id )
+  
+  * Event 
+    * event_name: String 
+    * description: String
+    * isPublic: Boolean
+    * date: String 
+    * startTime: String 
+    * videoLink: String
+    * creator: User._id 
+    * attendees: Array( User.id )
+    
+
+### Backend Routes 
+
+##### Users
+  * 
+
+## Frontend Design 
+
+### React Component Hierarchy 
+```
+ App
+ |-- Header 
+ |-- Router 
+   |-- / (home)
+   |-- /login
+   |-- /signup
+   |-- /profile
+     |-- /profile/friends
+   |-- /messages/read
+   |-- /messages/write
+   |-- /events
+   |-- /events/:id  
+```
