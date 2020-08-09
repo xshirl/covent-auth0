@@ -179,7 +179,29 @@ const userProfile = async (req, res) => {
         friends: user.friends,
       };
 
-      return res.status(200).json({ user: profile });
+      // return event_name and _id of events that the user is attending or created 
+      let createdEvents = await Event.find({ creator: legit.id });
+      let attendingEvents = await Event.find({
+        attendees: { $in: [legit.id] }
+      });
+
+      createdEvents = createdEvents.map(event => {
+        return {
+          event_name: event.event_name,
+          id: event._id
+        }
+      });
+
+      attendingEvents = attendingEvents.map(event => {
+        return {
+          event_name: event.event_name,
+          id: event._id
+        }
+      });
+
+      returnProfile = { ...profile, createdEvents, attendingEvents };
+
+      return res.status(200).json({ user: returnProfile });
     }
     return res.status(401).send("Not Authorized");
   } catch (error) {

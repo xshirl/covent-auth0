@@ -26,7 +26,7 @@ const Event = new Schema(
     },
     videoLink: {
       type: String,
-      required: true,
+      required: false,
     },
     creator: {
       type: Schema.Types.ObjectId,

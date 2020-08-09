@@ -84,11 +84,11 @@ export default class Login extends Component {
 
   render() {
     let fbContent;
-    let { username, email, picture, inputUsername } = this.state;
-    const signinName = inputUsername;
+    let { username, email, picture, signedInUsername } = this.state;
+    const signinName = signedInUsername;
     console.log(signinName);
     if (this.state.isLoggedIn) {
-      if (!inputUsername) {
+      if (!signinName) {
         fbContent = <Profile name={username} picture={picture} />;
       } else {
         fbContent = <Profile name={signinName} />;

@@ -8,16 +8,16 @@ export default class EventForm extends Component {
       redirect: false,
       redirectHome: false,
       event: {
-        name: "",
+        event_name: "",
         description: "",
-        isPublic: "",
+        isPublic: true,
         date: "",
         startTime: "",
-        videoLink: "",
-        creator: "",
+        videoLink: ""
       },
     };
   }
+
   handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
@@ -28,22 +28,18 @@ export default class EventForm extends Component {
       },
     }));
   };
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   this.props.onSubmit(this.state.event);
-  //   this.setState({
-  //     redirectHome: true,
-  //   });
-  // }
+
   submit = async (event) => {
     event.preventDefault();
+    console.log(this.state.event);
     try {
-      await createEvent({ event: this.state.event });
+      await createEvent(this.state.event);
       this.props.history.push("/events?public");
     } catch (error) {
       console.log(error.message);
     }
   };
+
   render() {
     return (
       <React.Fragment>
@@ -55,8 +51,8 @@ export default class EventForm extends Component {
               <label>Event Name</label>
               <input
                 className="form-control"
-                value={this.state.event.name}
-                name="name"
+                value={this.state.event.event_name}
+                name="event_name"
                 onChange={this.handleInputChange}
                 type="text"
               />
@@ -68,6 +64,7 @@ export default class EventForm extends Component {
                 className="form-control"
                 cols="20"
                 rows="4"
+                name="description"
               ></textarea>
             </div>
             <div>
@@ -75,16 +72,17 @@ export default class EventForm extends Component {
               <input
                 onChange={this.handleInputChange}
                 type="radio"
-                name="public"
-                value="public"
+                name="isPublic"
+                value={true}
               />
               <label>Private</label>
-              <input type="radio" name="private" value="private" />
+              <input onChange={this.handleInputChange} type="radio" name="isPublic" value={false} />
             </div>
             <div>
               <label>Event Date</label>
               <input
                 onChange={this.handleInputChange}
+                name="date"
                 type="date"
                 min="2020-08-01"
                 max="2020-12-31"
@@ -94,6 +92,7 @@ export default class EventForm extends Component {
               <label>Event Time</label>
               <input
                 onChange={this.handleInputChange}
+                name="startTime"
                 type="text"
                 min="00:00"
                 max="24:00"
@@ -104,6 +103,7 @@ export default class EventForm extends Component {
               <input
                 onChange={this.handleInputChange}
                 type="text"
+                name="videoLink"
                 placeholder="Google Meet Link"
               />
             </div>
