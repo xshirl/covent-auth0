@@ -57,7 +57,8 @@ If running local development server, the following .env file is required in the 
 
 ```
 TOKEN_KEY=<any string, for the JWT encryption token>
-ATLAS_URI=<if you want to use a db from MongoDB Atlas instead of your local machine's MongoDB, please get connection uri from your MongoDB Atlas account>
+ATLAS_URI=<if you want to use a db from MongoDB Atlas instead of your local machine's MongoDB, 
+           please get connection uri from your MongoDB Atlas account>
 ```
 
 ### Database Schemas
