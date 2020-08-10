@@ -14,9 +14,9 @@ Deployed link: https://co-vent.surge.sh
 
 ## Tech Stack
 
-- React
-- Node/Express
-- MongoDB
+- React - We used React on the front end with axios and react-router-dom
+- Node/Express - back-end
+- MongoDB - database, hosted on Mongo Atlas
 
 ## How to Use It
 
@@ -36,72 +36,77 @@ You can view your friends on your friends page and make a friend request to some
 
 On your messages page, you can see messages you have received and written.
 
+## Backend Design (How It Works)
 
-## Backend Design
+### Database Schemas
 
-### Database Schemas 
+- User
 
-  * User
-    * username: String
-    * password_digest: String
-    * name: String
-    * friends: Array( User._id )
-  
-  * Event 
-    * event_name: String 
-    * description: String
-    * isPublic: Boolean
-    * date: String 
-    * startTime: String 
-    * videoLink: String
-    * creator: User._id 
-    * attendees: Array( User._id )
-    
-  * Message
-    * subject: String 
-    * content: String 
-    * creator: User._id 
-    * recipient: [ User._id ]
-    
-  * FriendRequest 
-    * creator: User._id 
-    * recipient: User._id
-    * confirmed: Boolean
-    
+  - username: String
+  - password_digest: String
+  - name: String
+  - friends: Array( User.\_id )
 
-### Backend Routes 
+- Event
 
-  *  User 
-    * POST /signup - takes username, name and password, returns JWT 
-    * POST /signin - takes username and password, returns JWT
-    * GET /verifyuser - takes JWT, returns username 
-    * GET /userprofile - takes JWT, returns multiple user fields, including username and friends array 
-    
-  * Events 
-    * GET /events - takes JWT, returns events the user created and is attending 
-    * GET /events?public - no JWT required, returns all public events
-    * GET /events/:id - no JWT required, returns event with given id 
-    * POST /events - takes JWT, creates event with filled in fields 
-    * PUT /events - takes JWT, edits event with filled in fields if the JWT matches the event creator 
-    * DELETE /events - takes JWT, deletes event if the JWT matches the event creator 
-    * GET /searchevents/:term - no JWT required, returns all public events whose event_name or description contains the search term
-    
-  * Messages 
-    * POST /messages - takes JWT, creates event with given info 
-    * GET /messages - takes JWT, returns messages sent to or created by this user 
-  
-  * FriendRequests 
-    * POST /friendrequest - takes JWT, creates friend request to user defined by username or user._id 
-    * GET /friendrequest - takes JWT, returns all friend request from and to this user 
-    * POST /acceptfriendrequest/:id - takes JWT, if user is recipient of specified friend request, accept friend request and make users each other's friends 
+  - event_name: String
+  - description: String
+  - isPublic: Boolean
+  - date: String
+  - startTime: String
+  - videoLink: String
+  - creator: User.\_id
+  - attendees: Array( User.\_id )
 
-## Frontend Design 
+- Message
 
-### React Component Hierarchy 
+  - subject: String
+  - content: String
+  - creator: User.\_id
+  - recipient: [ User._id ]
+
+- FriendRequest
+  - creator: User.\_id
+  - recipient: User.\_id
+  - confirmed: Boolean
+
+### Backend Routes
+
+- User
+
+  - POST /signup - takes username, name and password, returns JWT
+  - POST /signin - takes username and password, returns JWT
+  - GET /verifyuser - takes JWT, returns username
+  - GET /userprofile - takes JWT, returns multiple user fields, including username and friends array
+
+- Events
+
+  - GET /events - takes JWT, returns events the user created and is attending
+  - GET /events?public - no JWT required, returns all public events
+  - GET /events/:id - no JWT required, returns event with given id
+  - POST /events - takes JWT, creates event with filled in fields
+  - PUT /events - takes JWT, edits event with filled in fields if the JWT matches the event creator
+  - DELETE /events - takes JWT, deletes event if the JWT matches the event creator
+  - GET /searchevents/:term - no JWT required, returns all public events whose event_name or description contains the search term
+
+- Messages
+
+  - POST /messages - takes JWT, creates event with given info
+  - GET /messages - takes JWT, returns messages sent to or created by this user
+
+- FriendRequests
+  - POST /friendrequest - takes JWT, creates friend request to user defined by username or user.\_id
+  - GET /friendrequest - takes JWT, returns all friend request from and to this user
+  - POST /acceptfriendrequest/:id - takes JWT, if user is recipient of specified friend request, accept friend request and make users each other's friends
+
+## Frontend Design
+
+### React Component Hierarchy
+
 ```
  App
- |-- Header 
- |-- Router 
+ |-- Header
+ |-- Router
    |-- / (home)
    |-- /login
    |-- /signup
@@ -110,5 +115,5 @@ On your messages page, you can see messages you have received and written.
    |-- /messages/read
    |-- /messages/write
    |-- /events
-   |-- /events/:id  
+   |-- /events/:id
 ```
