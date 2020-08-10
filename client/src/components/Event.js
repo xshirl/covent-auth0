@@ -68,7 +68,7 @@ class Event extends Component {
         </div>
       );
     } else {
-      return null;
+      return <h1>No Event Found</h1>;
     }
   }
 }

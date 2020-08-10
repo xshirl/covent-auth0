@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Header from "./Header";
-import { getEvents } from "../api/apiCalls";
+import { getEvents, searchEvents } from "../api/apiCalls";
 
-export default class Events extends Component {
-  constructor() {
-    super();
+class Events extends Component {
+  constructor(props) {
+    super(props);
 
     this.state = {
       events: [],
@@ -14,7 +14,13 @@ export default class Events extends Component {
 
   async componentDidMount() {
     try {
-      const response = await getEvents(true);
+      const { term } = this.props.match.params;
+      let response;
+      if (term) {
+        response = await searchEvents(term);
+      } else {
+        response = await getEvents(true);
+      }
       console.log(response);
       this.setState({
         events: response,
@@ -37,7 +43,7 @@ export default class Events extends Component {
               <p className="box-bordered">{event.description}</p>
               <p>Date: {event.date}</p>
               <p>Time: {event.startTime}</p>
-              <Link to={`/events/${event._id}`}>
+              <Link to={`/event/${event._id}`}>
                 <button>Read More/Attend</button>
               </Link>
             </div>
@@ -47,3 +53,5 @@ export default class Events extends Component {
     );
   }
 }
+
+export default withRouter(Events)
