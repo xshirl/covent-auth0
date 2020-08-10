@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 import { searchEvents } from "../api/apiCalls";
 
 export default class Search extends Component {
@@ -67,6 +68,9 @@ export default class Search extends Component {
               <p>{event.description}</p>
               <h4>{event.date}</h4>
               <h4>{event.startTime}</h4>
+              <Link to={`/event/${event._id}`}>
+                <button>Read More/Attend</button>
+              </Link>
             </section>
           );
         })}
