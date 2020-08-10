@@ -22,7 +22,8 @@ Co-vent is a social networking platform that brings people with common interests
 
 Deployed link: https://co-vent.surge.sh
 
-## Tech Stack
+
+## How it Works / Tech Stack
 
 - React - We used React on the front end with axios and react-router-dom
 - Node/Express - back-end
