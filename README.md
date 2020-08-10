@@ -2,6 +2,16 @@
 
 ![](images/homePage.png)
 
+## Team
+
+### Andrew Hsu
+
+Portfolio: https://drewhsu86.com/
+
+### Shirley Xu
+
+Portfolio: https://shirley-xu.com/
+
 ## About
 
 During this time of quarantine, without a means of physically being able to see and talk to their friends and family, many people are resorting to more creative ways of connecting to their peers to prevent feelings of loneliness and isolation. People host game nights, online workshops, virtual work out sessions, paint nights, Bible study fellowships, and etc through Zoom and Google Meet video calls. Scheduling these virtual events is often messy as it relies on multiple social platforms such as Groupme, Facebook, Slack, and email just to simply communicate a video call link and event details to arrange the event.
@@ -121,13 +131,3 @@ On the events page, you can see a list of all the public events.
    |-- /events
    |-- /events/:id
 ```
-
-## Team
-
-### Andrew Hsu
-
-Portfolio: https://drewhsu86.com/
-
-### Shirley Xu
-
-Portfolio: https://shirley-xu.com/
