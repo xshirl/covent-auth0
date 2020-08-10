@@ -4,7 +4,7 @@ import api from "./apiConfig";
 
 export const getEvents = async (isPublic) => {
   try {
-    const response = await api.get(`/events${isPublic?'?public':''}`);
+    const response = await api.get(`/events${isPublic ? "?public" : ""}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -84,7 +84,7 @@ export const attendEvent = async (eventId) => {
   }
 };
 
-// friend requests 
+// friend requests
 
 export const sendFriendRequest = async (bodyData) => {
   try {
