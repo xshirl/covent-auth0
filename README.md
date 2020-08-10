@@ -117,3 +117,13 @@ On your messages page, you can see messages you have received and written.
    |-- /events
    |-- /events/:id
 ```
+
+## Team
+
+### Andrew Hsu
+
+Portfolio: https://drewhsu86.com/
+
+### Shirley Xu
+
+Portfolio: https://shirley-xu.com/

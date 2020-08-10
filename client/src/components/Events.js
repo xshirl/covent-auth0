@@ -38,13 +38,13 @@ class Events extends Component {
         {events.length > 1 ? <h2>Public Events</h2> : <h2>No Events</h2>}
         {events.map((event, ind) => {
           return (
-            <div key={ind} className="box-bordered">
+            <div key={ind} className="events-list">
               <h3>{event.event_name}</h3>
               <p className="box-bordered">{event.description}</p>
               <p>Date: {event.date}</p>
               <p>Time: {event.startTime}</p>
               <Link to={`/event/${event._id}`}>
-                <button>Read More/Attend</button>
+                <button className="search-button">Read More/Attend</button>
               </Link>
             </div>
           );
@@ -54,4 +54,4 @@ class Events extends Component {
   }
 }
 
-export default withRouter(Events)
+export default withRouter(Events);
