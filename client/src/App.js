@@ -74,8 +74,9 @@ export default class App extends Component {
         <Route exact path="/message/read" component={MessageRead} />
         <Route exact path="/message/write" component={MessageWrite} />
         <Route exact path="/createEvent" component={EventForm} />
-        <Route exact path="/events/:id" component={Event} />
+        <Route exact path="/event/:id" component={Event} />
         <Route exact path="/events" component={Events} />
+        <Route exact path="/events/:term" component={Events} />
         <Route exact path="/profile/friends" component={Friends} />
       </Router>
     );
