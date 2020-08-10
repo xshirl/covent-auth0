@@ -12,14 +12,6 @@ Co-vent is a social networking platform that brings people with common interests
 
 Deployed link: https://co-vent.surge.sh
 
-## Team 
-
-  * Shirley Xu 
-    * [Github](https://github.com/xshirl)
-   
-  * Andrew Hsu 
-    * [Github](https://github.com/xshirl)
-    * [Portfolio](https://drewhsu86.com)
 
 ## How it Works / Tech Stack
 
