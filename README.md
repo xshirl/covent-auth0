@@ -36,6 +36,10 @@ You can view your friends on your friends page and make a friend request to some
 
 On your messages page, you can see messages you have received and written.
 
+On the events page, you can see a list of all the public events.
+
+![](images/events2.png)
+
 ## Backend Design (How It Works)
 
 ### Database Schemas
