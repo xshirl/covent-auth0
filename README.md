@@ -53,6 +53,13 @@ On the events page, you can see a list of all the public events.
 
 ## Backend Design (How It Works)
 
+If running local development server, the following .env file is required in the root folder: 
+
+```
+TOKEN_KEY=<any string, for the JWT encryption token>
+ATLAS_URI=<if you want to use a db from MongoDB Atlas instead of your local machine's MongoDB>
+```
+
 ### Database Schemas
 
 - User
